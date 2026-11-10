@@ -1,0 +1,15 @@
+# Tours By Rafiq · webAdmin — standalone Next.js container.
+#   cp .env.example .env.local   # fill in values
+#   docker compose up --build    → http://localhost:3001
+# The backend runs from its own repo (backendApis, gateway on host port 4000).
+# Override BACKEND_API_URL if the gateway lives elsewhere, e.g. BACKEND_API_URL=https://api.example.com docker compose up
+services:
+  admin:
+    build: .
+    image: tourguide-adminatest
+    env_file: .env.local
+    environment:
+      BACKEND_API_URL: ${BACKEND_API_URL:-http://host.docker.internal:4000}
+    extra_hosts: ["host.docker.internal:host-gateway"]
+    ports: ["3001:3001"]
+    restart: unless-stopped
