@@ -1,0 +1,1 @@
+.logo { display: block; flex: none; background: var(--logo-color, var(--c-brand)); -webkit-mask: url('/assets/brand/logo-mask.png') no-repeat center / contain; mask: url('/assets/brand/logo-mask.png') no-repeat center / contain; }

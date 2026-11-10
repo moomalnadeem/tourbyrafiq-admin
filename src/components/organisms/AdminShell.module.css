@@ -1,0 +1,29 @@
+/* Figma "09a · Admin" layout: dark sidebar 236px + cream workspace with top bar */
+.shell { display: grid; grid-template-columns: 248px 1fr; min-height: 100vh; }
+.side { background: #1e1714; color: #e9dccb; padding: 18px 12px 24px; position: sticky; top: 0; height: 100vh; overflow-y: auto; scrollbar-width: thin; }
+.brand { display: flex; align-items: center; gap: 10px; padding: 4px 8px 18px; }
+.mark { width: 36px; height: 36px; border-radius: 10px; background: var(--c-gold); color: var(--c-ink); display: grid; place-items: center; font-weight: 700; font-size: 13px; }
+.brand strong { font-family: var(--f-serif); font-weight: 400; font-size: 17px; display: block; color: #fff; }
+.brand small { color: var(--c-gold); font-size: 10px; letter-spacing: 1.6px; text-transform: uppercase; }
+.group { font-size: 10.5px; letter-spacing: 1.6px; text-transform: uppercase; opacity: .55; padding: 14px 10px 6px; }
+.link { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 8px; font-size: 13.5px; color: #e9dccb; }
+.link:hover { background: rgba(255,255,255,.06); }
+.link[aria-current='page'] { background: rgba(198,161,91,.18); color: #fff; }
+.main { min-width: 0; display: flex; flex-direction: column; }
+.top { position: sticky; top: 0; z-index: 20; height: 64px; display: flex; align-items: center; gap: 16px; padding: 0 28px; background: #fff; border-bottom: 1px solid var(--c-line); }
+.search { flex: 1; max-width: 420px; height: 40px; border-radius: 10px; background: var(--c-sand); border: 1px solid var(--c-line); padding: 0 14px; display: flex; align-items: center; gap: 10px; color: var(--c-muted); font-size: 13px; }
+.search input { border: 0; background: none; outline: none; flex: 1; min-width: 0; }
+.user { margin-left: auto; display: flex; align-items: center; gap: 10px; font-size: 13px; }
+.avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--c-ink); color: #fff; display: grid; place-items: center; font-weight: 600; font-size: 12px; }
+.burger { display: none; border: 0; background: none; }
+.content { padding: 24px 28px 64px; display: grid; gap: 24px; align-content: start; }
+.scrim { display: none; }
+@media (max-width: 1024px) {
+  .shell { grid-template-columns: 1fr; }
+  .side { position: fixed; left: 0; top: 0; bottom: 0; width: 280px; z-index: 60; transform: translateX(-100%); transition: transform .2s; }
+  .open .side { transform: none; }
+  .open .scrim { display: block; position: fixed; inset: 0; z-index: 55; background: rgba(0,0,0,.4); }
+  .burger { display: grid; }
+  .top, .content { padding-left: 16px; padding-right: 16px; }
+  .userName { display: none; }
+}

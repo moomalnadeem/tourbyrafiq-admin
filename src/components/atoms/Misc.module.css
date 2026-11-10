@@ -1,0 +1,12 @@
+.container { width: 100%; max-width: var(--container); margin: 0 auto; padding-left: var(--gutter); padding-right: var(--gutter); }
+.section { padding-top: var(--section-y); padding-bottom: var(--section-y); }
+.cream { background: var(--c-cream); }
+.white { background: #fff; }
+.dark { background: var(--c-ink); color: var(--c-footer-text); }
+.spinner { width: 18px; height: 18px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: spin .7s linear infinite; display: inline-block; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.skeleton { background: linear-gradient(90deg, var(--c-cream), #fff, var(--c-cream)); background-size: 200% 100%; animation: shimmer 1.2s infinite; border-radius: var(--r-md); }
+@keyframes shimmer { to { background-position: -200% 0; } }
+.stars { display: inline-flex; align-items: center; gap: 4px; color: var(--c-gold); font-size: 13px; }
+.stars span { color: var(--c-ink); font-weight: 600; }
+.stars small { color: var(--c-muted); font-size: 12px; }

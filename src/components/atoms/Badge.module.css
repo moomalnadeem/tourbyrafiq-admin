@@ -1,0 +1,9 @@
+.badge { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; white-space: nowrap; }
+.card { background: #fff; color: var(--c-brand); font-size: 10.5px; letter-spacing: 1.05px; text-transform: uppercase; padding: 5px 10px; border-radius: var(--r-sm); }
+.pill { font-size: 12px; padding: 4px 11px; border-radius: var(--r-pill); }
+.pill::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.ok { background: var(--c-ok-bg); color: var(--c-ok); }
+.warn { background: var(--c-warn-bg); color: var(--c-warn); }
+.bad { background: var(--c-bad-bg); color: var(--c-bad); }
+.neutral { background: var(--c-cream); color: var(--c-muted); }
+.brand { background: var(--c-cream); color: var(--c-brand); }

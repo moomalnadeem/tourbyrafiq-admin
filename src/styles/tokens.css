@@ -1,0 +1,45 @@
+/* Design tokens — extracted from Figma "Tours By Rafiq" (header, hero, cards, footer, admin). */
+:root {
+  /* colour */
+  --c-brand: #9d613d;          /* primary buttons, eyebrows, links */
+  --c-brand-dark: #82502f;
+  --c-gold: #c6a15b;           /* hero eyebrow, footer headings, app CTA */
+  --c-ink: #2a201b;            /* headings, footer bg */
+  --c-ink-2: #1a120d;
+  --c-muted: #6f6259;          /* body copy */
+  --c-faint: #a39488;          /* "From" labels */
+  --c-sand: #faf7f2;           /* page bg, inputs */
+  --c-cream: #f4eee6;          /* menu bar, panels */
+  --c-line: #e7ddd1;           /* borders */
+  --c-footer-text: #e9dccb;
+  --c-white: #ffffff;
+  --c-ok: #2f7a4f;  --c-ok-bg: #e5f3ea;
+  --c-warn: #8a5a00; --c-warn-bg: #fdf1d6;
+  --c-bad: #a33a2b; --c-bad-bg: #fbe7e3;
+
+  /* type */
+  --f-sans: var(--font-figtree), 'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --f-serif: var(--font-playfair), 'Playfair Display', Georgia, serif;
+  --fs-eyebrow: 11.5px; --ls-eyebrow: 2.3px;
+  --fs-hero: clamp(44px, 7vw, 88px); --lh-hero: 1.045;
+  --fs-h2: clamp(28px, 3.4vw, 44px); --lh-h2: 1.18;
+  --fs-h3: 20px;
+  --fs-body: 16px; --fs-small: 13px; --fs-xs: 12px;
+
+  /* shape & space */
+  --r-sm: 6px; --r-md: 8px; --r-lg: 14px; --r-xl: 16px; --r-pill: 999px;
+  --gutter: 80px;
+  --section-y: 96px;
+  --container: 1440px;
+  --shadow-card: 0 10px 30px rgba(42, 32, 27, 0.08);
+  --shadow-pop: 0 24px 60px rgba(26, 18, 13, 0.25);
+  --header-h: 132px;
+  --bottom-nav-h: 0px;
+}
+
+@media (max-width: 1024px) {
+  :root { --gutter: 40px; --section-y: 72px; --header-h: 133px; }
+}
+@media (max-width: 640px) {
+  :root { --gutter: 16px; --section-y: 56px; --header-h: 64px; --bottom-nav-h: 68px; }
+}

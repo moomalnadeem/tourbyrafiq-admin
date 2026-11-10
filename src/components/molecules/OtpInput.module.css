@@ -1,0 +1,4 @@
+.otp { display: flex; gap: 10px; justify-content: space-between; }
+.otp input { width: 52px; height: 60px; text-align: center; font-size: 24px; font-weight: 600; border: 1px solid var(--c-line); border-radius: var(--r-md); background: var(--c-sand); }
+.otp input:focus { outline: none; border-color: var(--c-brand); box-shadow: 0 0 0 3px rgba(157,97,61,.12); }
+@media (max-width: 400px) { .otp { gap: 6px; } .otp input { width: 42px; height: 52px; font-size: 20px; } }
