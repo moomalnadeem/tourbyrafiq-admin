@@ -11,5 +11,5 @@ export const metadata: Metadata = { title: { default: 'Admin · Tours By Rafiq',
 export const viewport: Viewport = { width: 'device-width', initialScale: 1, themeColor: '#1e1714' };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
-  return <html lang="en" className={`${figtree.variable} ${playfair.variable}`}><body style={{ paddingBottom: 0 }}><ToastProvider>{children}</ToastProvider></body></html>;
+  return <html lang="en" className={`${figtree.variable} ${playfair.variable}`} suppressHydrationWarning><body style={{ paddingBottom: 0 }}><ToastProvider>{children}</ToastProvider></body></html>;
 }
