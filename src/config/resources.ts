@@ -162,7 +162,7 @@ export const RESOURCES: Record<string, ResourceConfig> = {
     ],
   },
   features: {
-    key: 'features', title: 'Features & functionality', singular: 'feature', api: 'admin/config/features', group: 'config', code: 'CFG2', publishToggle: true,
+    key: 'features', title: 'Features', singular: 'feature', api: 'admin/config/features', group: 'config', code: 'CFG2', publishToggle: true,
     description: 'Switch individual features on or off. A feature is live only when it and its module are both published.',
     statusFilter: ['PUBLISHED', 'UNPUBLISHED'],
     columns: [{ key: 'name', label: 'Feature' }, { key: 'key', label: 'Key' }, { key: 'module.name', label: 'Module' }, { key: 'module.published', label: 'Module live', render: 'bool' }, { key: 'published', label: 'Published', render: 'bool' }],
