@@ -9,6 +9,8 @@ import { Avatar, ROLE_KEYS, ROLE_META, RoleBadge } from '@/components/organisms/
 import { KpiTile, PageTitle } from '@/components/organisms/Widgets';
 import { apiFetch } from '@/lib/api/client';
 import { useCurrentUser } from '@/components/organisms/useCurrentUser';
+import { GuideDocumentsPanel } from '@/components/organisms/users/GuideDocumentsPanel';
+import { UserStatusPill } from '@/components/organisms/users/userStatus';
 import { ButtonLink } from '@/components/atoms';
 
 const panel: CSSProperties = { background: '#fff', border: '1px solid var(--c-line)', borderRadius: 16, padding: 22, boxShadow: '0 10px 28px rgba(42,32,27,.05)', display: 'grid', gap: 16, alignContent: 'start' };
@@ -47,12 +49,21 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
   if (error) return <><PageTitle title="User" crumb="All users" /><p style={{ color: 'var(--a-rose)' }}>{error}</p></>;
   if (loading || !u) return <><PageTitle title="User" crumb="All users" /><Skeleton style={{ height: 520 }} /></>;
 
-  const suspended = u.status === 'SUSPENDED';
-  const toggleStatus = async () => {
-    if (!confirm(suspended ? `Reactivate ${u.email}?` : `Suspend ${u.email}? They will be signed out everywhere.`)) return;
+  /** Super admin: approve / reject (pending) or block / unblock — the user is emailed each time. */
+  const act = async (action: 'approve' | 'reject' | 'block' | 'unblock') => {
+    const verb = { approve: 'Approve', reject: 'Reject', block: 'Block', unblock: 'Unblock' }[action];
+    let reason: string | undefined;
+    if (action === 'reject' || action === 'block') {
+      const r = prompt(`${verb} ${u.email}? Optional reason (included in the email to them):`, '');
+      if (r === null) return;
+      reason = r;
+    } else if (!confirm(`${verb} ${u.email}? They will get an email.`)) return;
     setBusy('status');
-    try { await apiFetch(`admin/users/${u.id}/status`, { method: 'PATCH', body: { status: suspended ? 'ACTIVE' : 'SUSPENDED' } }); toast(suspended ? 'User reactivated' : 'User suspended'); reload(); }
-    catch (e: any) { toast(e.message, 'error'); } finally { setBusy(''); }
+    try {
+      await apiFetch(`admin/users/${u.id}/approval`, { body: { action, reason } });
+      toast({ approve: 'Approved — user emailed', reject: 'Rejected — user emailed', block: 'Blocked — user signed out and emailed', unblock: 'Unblocked — user emailed' }[action]);
+      reload();
+    } catch (e: any) { toast(e.message, 'error'); } finally { setBusy(''); }
   };
   const changeRole = async () => {
     if (!role || role === u.role) return;
@@ -74,18 +85,30 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
           <strong style={{ fontSize: 20 }}>{u.name || u.companyName || '—'}</strong>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
             <RoleBadge role={u.role} name={u.roleName} />
-            <StatusPill tone={toneFor(u.status)}>{String(u.status).replace(/_/g, ' ').toLowerCase()}</StatusPill>
+            <UserStatusPill status={u.status} />
             {u.companyName && <span style={{ fontSize: 13, color: 'var(--c-muted)' }}>· {u.companyName}</span>}
           </div>
           <span style={{ fontSize: 13, color: 'var(--c-muted)' }}>Joined {dt(u.createdAt)} · Last sign-in {dt(u.lastLoginAt)}</span>
         </div>
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
           {me.role === 'SUPER_ADMIN' && <ButtonLink href={`/users/${u.id}/edit`} variant="outline" iconLeft="edit">Edit user</ButtonLink>}
-          <Button type="button" variant={suspended ? 'primary' : 'outline'} onClick={toggleStatus} disabled={busy === 'status'} iconLeft={suspended ? 'check' : 'close'}>
-            {busy === 'status' ? 'Saving…' : suspended ? 'Reactivate' : 'Suspend'}
-          </Button>
+{me.role === 'SUPER_ADMIN' && u.status === 'PENDING_APPROVAL' && <>
+            <Button type="button" onClick={() => act('approve')} disabled={busy === 'status'} iconLeft="check">Approve</Button>
+            <Button type="button" variant="outline" onClick={() => act('reject')} disabled={busy === 'status'} iconLeft="close">Reject</Button>
+          </>}
+          {me.role === 'SUPER_ADMIN' && u.status === 'ACTIVE' && <Button type="button" variant="outline" onClick={() => act('block')} disabled={busy === 'status'} iconLeft="shield">Block</Button>}
+          {me.role === 'SUPER_ADMIN' && u.status === 'SUSPENDED' && <Button type="button" onClick={() => act('unblock')} disabled={busy === 'status'} iconLeft="check">Unblock</Button>}
         </div>
       </section>
+
+      {u.status === 'PENDING_APPROVAL' && (
+        <p style={{ margin: 0, padding: '12px 16px', borderRadius: 12, background: '#fef3c7', color: '#92400e', fontSize: 14 }}>
+          <strong>Waiting for approval.</strong> This {u.role === 'GUIDE' ? 'tour guide' : u.role === 'COMPANY' ? 'company' : ''} account can’t sign in until a super admin approves it{u.role === 'GUIDE' ? ' — check their documents below first' : ''}.
+        </p>
+      )}
+      {u.status === 'SUSPENDED' && (
+        <p style={{ margin: 0, padding: '12px 16px', borderRadius: 12, background: '#ffe4e6', color: '#9f1239', fontSize: 14 }}><strong>Blocked.</strong> This user can’t sign in until a super admin unblocks them.</p>
+      )}
 
       {/* Activity */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16 }}>
@@ -126,6 +149,12 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
           </div>
           <p style={{ margin: 0, fontSize: 12.5, color: 'var(--c-muted)' }}>Only super admins can grant Super admin, and nobody can change their own role.</p>
         </Panel>
+
+        {u.role === 'GUIDE' && (
+          <Panel title="Verification documents" icon="shield" tone="amber">
+            <GuideDocumentsPanel userId={u.id} email={u.email} />
+          </Panel>
+        )}
 
         {u.guideProfile && (
           <Panel title="Guide profile" icon="compass" tone="teal" action={u.guideProfile.slug ? <Link href={`/guides`} style={{ fontSize: 13, color: 'var(--a-teal)', fontWeight: 600 }}>All guides →</Link> : undefined}>

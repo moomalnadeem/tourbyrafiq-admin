@@ -24,8 +24,8 @@ export function renderCell(row: any, c: Column & { cell?: (row: any) => ReactNod
 export interface TableColumn extends Column { cell?: (row: any) => ReactNode }
 
 /** Reusable paginated, searchable, filterable table bound to any admin list endpoint. */
-export function DataTable({ path, columns, statuses, statusParam = 'status', onRowClick, extraFilters, actions, reloadKey }: {
-  path: string; columns: TableColumn[]; statuses?: string[]; statusParam?: string; onRowClick?: (row: any) => void;
+export function DataTable({ path, columns, statuses, statusLabels, statusParam = 'status', onRowClick, extraFilters, actions, reloadKey }: {
+  path: string; columns: TableColumn[]; statuses?: string[]; statusLabels?: Record<string, string>; statusParam?: string; onRowClick?: (row: any) => void;
   extraFilters?: ReactNode; actions?: (row: any, reload: () => void) => ReactNode; reloadKey?: number;
 }) {
   const [page, setPage] = useState(1);
@@ -43,7 +43,7 @@ export function DataTable({ path, columns, statuses, statusParam = 'status', onR
         <input type="search" placeholder="Search…" value={q} onChange={(e) => setQ(e.target.value)} aria-label="Search" />
         {statuses && (
           <select value={status} onChange={(e) => { setPage(1); setStatus(e.target.value); }} aria-label="Filter by status">
-            <option value="">All statuses</option>{statuses.map((st) => <option key={st} value={st}>{st.replace(/_/g, ' ').toLowerCase()}</option>)}
+            <option value="">All statuses</option>{statuses.map((st) => <option key={st} value={st}>{statusLabels?.[st] ?? st.replace(/_/g, ' ').toLowerCase()}</option>)}
           </select>
         )}
         {extraFilters}

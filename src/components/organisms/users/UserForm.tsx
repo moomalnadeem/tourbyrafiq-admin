@@ -26,10 +26,10 @@ export function UserForm({ initial, selfId }: { initial?: any; selfId?: string }
   const isNew = !initial;
   const isSelf = !!initial && initial.id === selfId;
   const [v, setV] = useState({
-    email: initial?.email ?? '', name: initial?.name ?? '', role: initial?.role ?? 'TOURIST', status: initial?.status ?? 'ACTIVE',
+    email: initial?.email ?? '', name: initial?.name ?? '', role: initial?.role ?? 'TOURIST', status: initial?.status ?? '',
     phone: initial?.phone ?? '', companyName: initial?.companyName ?? '', nationality: initial?.nationality ?? '',
     locale: initial?.locale ?? 'en', currency: initial?.currency ?? 'AED',
-    guideVerified: initial?.guideProfile?.verified ?? true, guideHeadline: initial?.guideProfile?.headline ?? '',
+    guideVerified: initial?.guideProfile?.verified ?? false, guideHeadline: initial?.guideProfile?.headline ?? '',
   });
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState('');
@@ -37,7 +37,7 @@ export function UserForm({ initial, selfId }: { initial?: any; selfId?: string }
 
   async function save(e: React.FormEvent) {
     e.preventDefault(); setErr(''); setBusy(true);
-    const body: any = { email: v.email.trim(), name: v.name.trim() || undefined, role: v.role, status: v.status, phone: v.phone.trim() || undefined,
+    const body: any = { email: v.email.trim(), name: v.name.trim() || undefined, role: v.role, status: v.status || undefined, phone: v.phone.trim() || undefined,
       nationality: v.nationality.trim() || undefined, locale: v.locale, currency: v.currency };
     if (v.role === 'COMPANY') body.companyName = v.companyName.trim();
     if (v.role === 'GUIDE') { body.guideVerified = v.guideVerified; body.guideHeadline = v.guideHeadline.trim() || undefined; }
@@ -62,10 +62,11 @@ export function UserForm({ initial, selfId }: { initial?: any; selfId?: string }
             </Select>
           )}
         </FormField>
-        <FormField label="Status" hint={isSelf ? 'You cannot change your own status' : 'Suspended users are signed out everywhere'}>
+        <FormField label="Status" hint={isSelf ? 'You cannot change your own status' : 'Blocked users are signed out everywhere and can’t sign in'}>
           {(id) => (
             <Select id={id} disabled={isSelf} value={v.status} onChange={(e) => set('status', e.target.value)}>
-              <option value="ACTIVE">Active</option><option value="PENDING_APPROVAL">Pending approval</option><option value="SUSPENDED">Suspended</option>
+              {isNew && <option value="">Automatic — companies & guides wait for approval</option>}
+              <option value="ACTIVE">Active</option><option value="PENDING_APPROVAL">Waiting for approval</option><option value="SUSPENDED">Blocked</option>
             </Select>
           )}
         </FormField>

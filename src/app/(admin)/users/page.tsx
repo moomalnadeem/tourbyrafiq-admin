@@ -2,10 +2,11 @@
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useState } from 'react';
-import { Icon, StatusPill, toneFor } from '@/components/atoms';
+import { Icon } from '@/components/atoms';
 import { DataTable } from '@/components/organisms/DataTable';
 import { ReportCards } from '@/components/organisms/ReportCards';
 import { Avatar, ROLE_KEYS, ROLE_META, RoleBadge } from '@/components/organisms/users/RoleBadge';
+import { UserStatusPill } from '@/components/organisms/users/userStatus';
 import { PageTitle } from '@/components/organisms/Widgets';
 import { useCurrentUser } from '@/components/organisms/useCurrentUser';
 import { ButtonLink } from '@/components/atoms';
@@ -29,11 +30,13 @@ function AllUsers() {
         { label: 'Companies', icon: 'shield', tone: 'violet', query: 'role=COMPANY' },
         { label: 'Tour guides', icon: 'compass', tone: 'teal', query: 'role=GUIDE' },
         { label: 'Staff', icon: 'shield', tone: 'amber', query: 'role=STAFF' },
-        { label: 'Suspended', icon: 'close', tone: 'rose', query: 'status=SUSPENDED' },
+        { label: 'Waiting for approval', icon: 'clock', tone: 'amber', query: 'status=PENDING_APPROVAL' },
+        { label: 'Blocked', icon: 'close', tone: 'rose', query: 'status=SUSPENDED' },
       ]} />
       <DataTable
         path={path}
         statuses={['ACTIVE', 'PENDING_APPROVAL', 'SUSPENDED']}
+        statusLabels={{ ACTIVE: 'Active', PENDING_APPROVAL: 'Waiting for approval', SUSPENDED: 'Blocked' }}
         extraFilters={(
           <select value={role} onChange={(e) => setRole(e.target.value)} aria-label="Filter by role">
             <option value="">All roles</option>
@@ -57,7 +60,7 @@ function AllUsers() {
           },
           { key: 'role', label: 'Role', cell: (r) => <RoleBadge role={r.role} name={r.roleName} /> },
           { key: 'companyName', label: 'Company / phone', cell: (r) => <span style={{ fontSize: 13 }}>{r.companyName || r.phone || <span style={{ color: 'var(--c-faint)' }}>—</span>}</span> },
-          { key: 'status', label: 'Status', cell: (r) => <StatusPill tone={toneFor(r.status)}>{String(r.status).replace(/_/g, ' ').toLowerCase()}</StatusPill> },
+          { key: 'status', label: 'Status', cell: (r) => <UserStatusPill status={r.status} /> },
           { key: '_count.bookings', label: 'Bookings', cell: (r) => <strong style={{ color: r._count?.bookings ? 'var(--a-teal)' : 'var(--c-faint)' }}>{r._count?.bookings ?? 0}</strong> },
           { key: 'lastLoginAt', label: 'Last sign-in', cell: (r) => <span style={{ fontSize: 13, color: 'var(--c-muted)' }}>{when(r.lastLoginAt)}</span> },
           { key: 'createdAt', label: 'Joined', cell: (r) => <span style={{ fontSize: 13, color: 'var(--c-muted)' }}>{when(r.createdAt)}</span> },
