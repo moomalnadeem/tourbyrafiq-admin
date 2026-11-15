@@ -15,7 +15,7 @@
 .btn[data-active] { background: var(--a-indigo-bg); color: var(--a-indigo); border-color: #c7d2fe; }
 .btn:disabled { opacity: .35; cursor: default; }
 .sep { width: 1px; height: 22px; background: var(--c-line); margin: 0 4px; }
-.select { height: 32px; border: 1px solid var(--c-line); border-radius: 8px; background: #fff; padding: 0 8px; font-size: 13px; }
+.select { height: 32px; border: 1px solid var(--c-line); border-radius: 8px; background-color: #fff; padding: 0 10px; font-size: 13px; }
 .sourceLabel { font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--c-brand); padding: 0 6px; margin-right: auto; }
 
 .pop { position: relative; }

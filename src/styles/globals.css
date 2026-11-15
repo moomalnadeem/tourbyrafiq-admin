@@ -23,3 +23,14 @@ p { margin: 0; }
 .prose p { margin: 0 0 14px; }
 .prose ul { padding-left: 20px; }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+
+/* Every dropdown in the admin: custom arrow with room on the right (native arrows sat on the edge) */
+select:not([multiple]):not([size]) {
+  appearance: none; -webkit-appearance: none; -moz-appearance: none;
+  padding-right: 40px !important; cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath d='M3.5 5.25 7 8.75l3.5-3.5' fill='none' stroke='%239d613d' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 14px center; background-size: 14px 14px;
+  text-overflow: ellipsis;
+}
+select:not([multiple]):not([size])::-ms-expand { display: none; }
+select:disabled { cursor: not-allowed; opacity: .7; }
