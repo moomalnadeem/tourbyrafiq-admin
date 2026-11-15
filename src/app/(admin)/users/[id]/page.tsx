@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { use, useState, type CSSProperties, type ReactNode } from 'react';
 import { Button, Icon, type IconName, Select, Skeleton, StatusPill, toneFor } from '@/components/atoms';
-import { aed } from '@/components/organisms/ReportCards';
+import { usd } from '@/components/organisms/ReportCards';
 import { useToast } from '@/components/organisms/Toaster';
 import { useApi } from '@/components/organisms/useApi';
 import { Avatar, ROLE_KEYS, ROLE_META, RoleBadge } from '@/components/organisms/users/RoleBadge';
@@ -113,7 +113,7 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
       {/* Activity */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16 }}>
         <KpiTile label="Bookings" value={String(u._count?.bookings ?? 0)} icon="ticket" tone="indigo" sub={u._count?.guidedBookings ? `${u._count.guidedBookings} guided` : undefined} />
-        <KpiTile label="Total spent" value={aed(u.totalSpent ?? 0)} icon="tag" tone="emerald" sub="Paid bookings" />
+        <KpiTile label="Total spent" value={usd(u.totalSpent ?? 0)} icon="tag" tone="emerald" sub="Paid bookings" />
         <KpiTile label="Reviews" value={String(u._count?.reviews ?? 0)} icon="star" tone="violet" />
         <KpiTile label="Sign-ins" value={String(u._count?.loginHistory ?? 0)} icon="logout" tone="sky" />
         <KpiTile label="Support tickets" value={String(u._count?.tickets ?? 0)} icon="chat" tone="amber" />

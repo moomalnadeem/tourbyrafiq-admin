@@ -1,4 +1,4 @@
-import { aed, statusCards, type CardSpec } from '@/components/organisms/ReportCards';
+import { usd, statusCards, type CardSpec } from '@/components/organisms/ReportCards';
 
 /** Report cards for the config-driven catalogue / content lists (key = RESOURCES key). */
 const sum = (items: any[], f: (x: any) => number) => items.reduce((s, x) => s + (Number(f(x)) || 0), 0);
@@ -22,7 +22,7 @@ export const RESOURCE_CARDS: Record<string, CardSpec[]> = {
     { label: 'Total transfers', icon: 'car', tone: 'indigo', query: '' },
     { label: 'Published', icon: 'check', tone: 'emerald', query: 'status=PUBLISHED' },
     { label: 'Draft', icon: 'clock', tone: 'amber', query: 'status=DRAFT' },
-    { label: 'Average price', icon: 'tag', tone: 'teal', compute: (i) => avg(i, (x) => x.priceFrom ?? x.price), format: aed },
+    { label: 'Average price', icon: 'tag', tone: 'teal', compute: (i) => avg(i, (x) => x.priceFrom ?? x.price), format: usd },
   ],
   emirates: [
     { label: 'Emirates', icon: 'pin', tone: 'indigo', query: '' },
@@ -39,7 +39,7 @@ export const RESOURCE_CARDS: Record<string, CardSpec[]> = {
   attractions: [
     { label: 'Attractions', icon: 'ticket', tone: 'indigo', query: '' },
     { label: 'Top attractions', icon: 'star', tone: 'violet', query: 'top=true' },
-    { label: 'Average ticket', icon: 'tag', tone: 'teal', compute: (i) => avg(i, (x) => x.ticketPrice), format: aed },
+    { label: 'Average ticket', icon: 'tag', tone: 'teal', compute: (i) => avg(i, (x) => x.ticketPrice), format: usd },
     { label: 'Free entry', icon: 'gift', tone: 'emerald', compute: (i) => i.filter((x) => !Number(x.ticketPrice)).length },
   ],
   categories: [

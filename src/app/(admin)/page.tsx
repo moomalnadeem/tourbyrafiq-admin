@@ -4,7 +4,7 @@ import { ButtonLink } from '@/components/atoms';
 import { DataTable } from '@/components/organisms/DataTable';
 import { useApi } from '@/components/organisms/useApi';
 import { AttentionCard, KpiTile, PageTitle, RevenueChart } from '@/components/organisms/Widgets';
-import { money } from '@/lib/utils/format';
+import { money, usd } from '@/lib/utils/format';
 
 /** AD1 · Dashboard. */
 export default function Dashboard() {
@@ -16,7 +16,7 @@ export default function Dashboard() {
         description={new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) + ' · Dubai (GST)'}
         actions={<><ButtonLink href="/bookings" variant="outline" iconLeft="plus">New booking</ButtonLink><ButtonLink href="/catalog/tours/new" iconLeft="plus">Add tour</ButtonLink></>} />
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
-        <KpiTile label="Revenue · 30 days" value={`AED ${money(st?.revenue ?? 0)}`} icon="tag" sub="Paid bookings" />
+        <KpiTile label="Revenue · 30 days" value={usd(st?.revenue ?? 0)} icon="tag" sub="Paid bookings" />
         <KpiTile label="Bookings" value={String(st?.bookings ?? '—')} icon="ticket" sub={`${st?.bookingsToday ?? 0} today`} />
         <KpiTile label="Active guides" value={String(st?.activeGuides ?? '—')} icon="users" sub={`${st?.pendingGuides ?? 0} pending approval`} />
         <KpiTile label="Avg rating" value={st?.avgRating ? String(st.avgRating) : '—'} icon="star" sub={`${st?.reviewCount ?? 0} reviews`} />

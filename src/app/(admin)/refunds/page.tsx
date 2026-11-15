@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Button } from '@/components/atoms';
 import { DataTable } from '@/components/organisms/DataTable';
 import { useToast } from '@/components/organisms/Toaster';
-import { ReportCards, statusCards, aed } from '@/components/organisms/ReportCards';
+import { ReportCards, statusCards, usd } from '@/components/organisms/ReportCards';
 import { PageTitle } from '@/components/organisms/Widgets';
 import { apiFetch } from '@/lib/api/client';
 
@@ -19,7 +19,7 @@ export default function Refunds() {
       <PageTitle title="Refunds & cancellations" description="Refunds are calculated from the cancellation policy and need approval." />
       <ReportCards path={'admin/refunds'} reloadKey={k} cards={[
           ...statusCards(['REQUESTED', 'PROCESSED', 'REJECTED'], { totalLabel: 'Total refunds' }),
-          { label: 'Refunded', icon: 'tag', tone: 'teal', compute: (i) => i.filter((x) => x.status === 'PROCESSED').reduce((s, x) => s + Number(x.amount), 0), format: aed },
+          { label: 'Refunded', icon: 'tag', tone: 'teal', compute: (i) => i.filter((x) => x.status === 'PROCESSED').reduce((s, x) => s + Number(x.amount), 0), format: usd },
         ]} />
       <DataTable path="admin/refunds" statuses={['REQUESTED', 'APPROVED', 'REJECTED', 'PROCESSED']} reloadKey={k}
         columns={[{ key: 'booking.reference', label: 'Booking' }, { key: 'booking.contactName', label: 'Customer' }, { key: 'reason', label: 'Reason' }, { key: 'createdAt', label: 'Requested', render: 'date' }, { key: 'amount', label: 'Refund', render: 'money' }, { key: 'status', label: 'Status', render: 'status' }]}

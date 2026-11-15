@@ -4,7 +4,5 @@
 .md .row { font-size: 22px; }
 .lg .row { font-size: 30px; }
 .sm .row { font-size: 16px; }
-.dirham { width: 18.2px; height: 15.8px; flex: none; }
-.sm .dirham { width: 14px; height: 12px; }
-.lg .dirham { width: 24px; height: 21px; }
+.sym { font-weight: 600; margin-right: -2px; }
 .per { font-size: 12px; color: var(--c-muted); font-weight: 400; margin-left: 4px; }

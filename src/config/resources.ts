@@ -34,8 +34,8 @@ export const RESOURCES: Record<string, ResourceConfig> = {
       { key: 'categoryId', label: 'Category', type: 'relation', relation: { path: 'catalog/categories' } },
       { key: 'locationLabel', label: 'Card label', type: 'text', hint: 'e.g. Desert safari · Dubai' },
       { key: 'badge', label: 'Badge', type: 'text', hint: 'Best seller, New, Top rated…' },
-      { key: 'priceFrom', label: 'Adult price (AED)', type: 'money', required: true },
-      { key: 'childPrice', label: 'Child price (AED)', type: 'money' },
+      { key: 'priceFrom', label: 'Adult price ($, under $400)', type: 'money', required: true },
+      { key: 'childPrice', label: 'Child price ($, under $400)', type: 'money' },
       { key: 'durationHours', label: 'Duration (hours)', type: 'number' },
       { key: 'maxGuests', label: 'Max guests', type: 'number' },
       { key: 'tourType', label: 'Type', type: 'select', options: ['PRIVATE', 'SHARED'] },
@@ -63,7 +63,7 @@ export const RESOURCES: Record<string, ResourceConfig> = {
       { key: 'status', label: 'Status', type: 'select', options: STATUS },
       { key: 'segment', label: 'Type', type: 'select', options: ['INBOUND', 'DOMESTIC', 'LUXURY', 'FAMILY', 'HONEYMOON', 'GROUP', 'WEEKEND'] },
       { key: 'days', label: 'Days', type: 'number' }, { key: 'nights', label: 'Nights', type: 'number' },
-      { key: 'priceFrom', label: 'Price per person (AED)', type: 'money', required: true }, { key: 'badge', label: 'Badge', type: 'text' },
+      { key: 'priceFrom', label: 'Price per person ($)', type: 'money', required: true }, { key: 'badge', label: 'Badge', type: 'text' },
       { key: 'isFeatured', label: 'Featured', type: 'boolean' },
       { key: 'images', label: 'Photos', type: 'images', folder: 'packages', full: true },
       { key: 'summary', label: 'Summary', type: 'textarea', full: true },
@@ -77,7 +77,7 @@ export const RESOURCES: Record<string, ResourceConfig> = {
     fields: [
       { key: 'name', label: 'Name', type: 'text', required: true, full: true }, { key: 'status', label: 'Status', type: 'select', options: STATUS },
       { key: 'emirateId', label: 'Emirate', type: 'relation', relation: { path: 'catalog/emirates' } }, { key: 'stars', label: 'Stars', type: 'number' },
-      { key: 'priceFrom', label: 'Price per night (AED)', type: 'money', required: true }, { key: 'address', label: 'Address', type: 'text' },
+      { key: 'priceFrom', label: 'Price per night ($)', type: 'money', required: true }, { key: 'address', label: 'Address', type: 'text' },
       { key: 'isFeatured', label: 'Featured', type: 'boolean' }, { key: 'amenities', label: 'Amenities', type: 'tags', full: true },
       { key: 'images', label: 'Photos', type: 'images', folder: 'hotels', full: true }, { key: 'summary', label: 'Summary', type: 'textarea', full: true },
     ],
@@ -90,7 +90,7 @@ export const RESOURCES: Record<string, ResourceConfig> = {
       { key: 'vehicleType', label: 'Vehicle', type: 'select', options: ['Sedan', 'SUV', 'Van', 'Luxury', 'Coach'], required: true },
       { key: 'capacity', label: 'Seats', type: 'number' }, { key: 'luggage', label: 'Luggage', type: 'number' },
       { key: 'fromLocation', label: 'From', type: 'text', required: true }, { key: 'toLocation', label: 'To', type: 'text', required: true },
-      { key: 'priceFrom', label: 'Price per vehicle (AED)', type: 'money', required: true }, { key: 'image', label: 'Photo', type: 'image', folder: 'general' },
+      { key: 'priceFrom', label: 'Price per vehicle ($)', type: 'money', required: true }, { key: 'image', label: 'Photo', type: 'image', folder: 'general' },
     ],
   },
   offers: {
@@ -117,7 +117,7 @@ export const RESOURCES: Record<string, ResourceConfig> = {
   attractions: {
     key: 'attractions', title: 'Attractions & tickets', singular: 'attraction', api: 'admin/catalog/attractions', group: 'catalog', code: 'AD12',
     columns: [{ key: 'image', label: '', render: 'image' }, { key: 'name', label: 'Attraction' }, { key: 'destination.name', label: 'Destination' }, { key: 'ticketPrice', label: 'Ticket', render: 'money' }],
-    fields: [{ key: 'name', label: 'Name', type: 'text', required: true }, { key: 'destinationId', label: 'Destination', type: 'relation', relation: { path: 'catalog/destinations' }, required: true }, { key: 'ticketPrice', label: 'Ticket price (AED)', type: 'money' }, { key: 'openingHours', label: 'Opening hours', type: 'text' }, { key: 'isTopAttraction', label: 'Top attraction', type: 'boolean' }, { key: 'tag', label: 'Menu tag', type: 'text', hint: 'Seasonal, Coming soon, UNESCO…' }, { key: 'sortOrder', label: 'Menu order', type: 'number' }, { key: 'image', label: 'Image', type: 'image', folder: 'destinations' }, { key: 'summary', label: 'Summary', type: 'textarea', full: true }],
+    fields: [{ key: 'name', label: 'Name', type: 'text', required: true }, { key: 'destinationId', label: 'Destination', type: 'relation', relation: { path: 'catalog/destinations' }, required: true }, { key: 'ticketPrice', label: 'Ticket price ($)', type: 'money' }, { key: 'openingHours', label: 'Opening hours', type: 'text' }, { key: 'isTopAttraction', label: 'Top attraction', type: 'boolean' }, { key: 'tag', label: 'Menu tag', type: 'text', hint: 'Seasonal, Coming soon, UNESCO…' }, { key: 'sortOrder', label: 'Menu order', type: 'number' }, { key: 'image', label: 'Image', type: 'image', folder: 'destinations' }, { key: 'summary', label: 'Summary', type: 'textarea', full: true }],
   },
   categories: {
     key: 'categories', title: 'Categories', singular: 'category', api: 'admin/catalog/categories', group: 'catalog', code: 'AD7',

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Select } from '@/components/atoms';
 import { DataTable } from '@/components/organisms/DataTable';
 import { useToast } from '@/components/organisms/Toaster';
-import { ReportCards, statusCards, aed } from '@/components/organisms/ReportCards';
+import { ReportCards, statusCards, usd } from '@/components/organisms/ReportCards';
 import { PageTitle } from '@/components/organisms/Widgets';
 import { apiFetch } from '@/lib/api/client';
 
@@ -15,7 +15,7 @@ export default function Payouts() {
       <PageTitle title="Payouts" />
       <ReportCards path={'admin/payouts'} reloadKey={k} cards={[
           ...statusCards(['PENDING', 'PROCESSING', 'PAID'], { totalLabel: 'Total payouts' }),
-          { label: 'Paid out', icon: 'tag', tone: 'teal', compute: (i) => i.filter((x) => x.status === 'PAID').reduce((s, x) => s + Number(x.amount), 0), format: aed },
+          { label: 'Paid out', icon: 'tag', tone: 'teal', compute: (i) => i.filter((x) => x.status === 'PAID').reduce((s, x) => s + Number(x.amount), 0), format: usd },
         ]} />
       <DataTable path="admin/payouts" statuses={['PENDING', 'PROCESSING', 'PAID', 'FAILED']} reloadKey={k}
         columns={[{ key: 'guide.user.name', label: 'Guide' }, { key: 'periodStart', label: 'From', render: 'date' }, { key: 'periodEnd', label: 'To', render: 'date' }, { key: 'amount', label: 'Amount', render: 'money' }, { key: 'status', label: 'Status', render: 'status' }]}

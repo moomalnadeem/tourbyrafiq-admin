@@ -1,5 +1,12 @@
 export const money = (v: string | number | null | undefined) =>
-  Number(v ?? 0).toLocaleString('en-AE', { maximumFractionDigits: Number(v) % 1 ? 2 : 0 });
+  Number(v ?? 0).toLocaleString('en-US', { minimumFractionDigits: Number(v) % 1 ? 2 : 0, maximumFractionDigits: Number(v) % 1 ? 2 : 0 });
+
+/** The one currency the site prices and charges in. */
+export const CURRENCY = 'USD';
+export const CURRENCY_SYMBOL = '$';
+/** "$1,280" / "$89.50" */
+export const usd = (v: string | number | null | undefined) => `${CURRENCY_SYMBOL}${money(v)}`;
+
 
 export const duration = (hours: number) => (hours >= 24 ? `${Math.round(hours / 24)} days` : `${hours % 1 ? hours : Math.round(hours)} hours`);
 

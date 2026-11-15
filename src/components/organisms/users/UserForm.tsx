@@ -28,7 +28,7 @@ export function UserForm({ initial, selfId }: { initial?: any; selfId?: string }
   const [v, setV] = useState({
     email: initial?.email ?? '', name: initial?.name ?? '', role: initial?.role ?? 'TOURIST', status: initial?.status ?? '',
     phone: initial?.phone ?? '', companyName: initial?.companyName ?? '', nationality: initial?.nationality ?? '',
-    locale: initial?.locale ?? 'en', currency: initial?.currency ?? 'AED',
+    locale: initial?.locale ?? 'en', currency: initial?.currency ?? 'USD',
     guideVerified: initial?.guideProfile?.verified ?? false, guideHeadline: initial?.guideProfile?.headline ?? '',
   });
   const [busy, setBusy] = useState(false);
@@ -78,7 +78,7 @@ export function UserForm({ initial, selfId }: { initial?: any; selfId?: string }
         <FormField label="Phone">{(id) => <Input id={id} type="tel" maxLength={40} value={v.phone} onChange={(e) => set('phone', e.target.value)} placeholder="+971 …" />}</FormField>
         <FormField label="Nationality">{(id) => <Input id={id} maxLength={60} value={v.nationality} onChange={(e) => set('nationality', e.target.value)} />}</FormField>
         <FormField label="Language">{(id) => <Select id={id} value={v.locale} onChange={(e) => set('locale', e.target.value)}><option value="en">English</option><option value="ar">العربية</option></Select>}</FormField>
-        <FormField label="Currency">{(id) => <Select id={id} value={v.currency} onChange={(e) => set('currency', e.target.value)}>{['AED', 'USD', 'EUR', 'GBP'].map((c) => <option key={c}>{c}</option>)}</Select>}</FormField>
+        <FormField label="Currency">{(id) => <Select id={id} value={v.currency} onChange={(e) => set('currency', e.target.value)}>{['USD', 'AED', 'EUR', 'GBP'].map((c) => <option key={c}>{c}</option>)}</Select>}</FormField>
       </Section>
 
       {v.role === 'COMPANY' && (

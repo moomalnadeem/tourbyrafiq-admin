@@ -17,7 +17,7 @@ export interface CardSpec {
 }
 
 const nf = new Intl.NumberFormat('en-AE');
-export const aed = (n: number) => `AED ${nf.format(Math.round(n))}`;
+export const usd = (n: number) => `$${nf.format(Math.round(n))}`;
 
 /** Report cards shown on top of every admin list. Reload by changing `reloadKey`. */
 export function ReportCards({ path, cards, reloadKey }: { path: string; cards: CardSpec[]; reloadKey?: unknown }) {

@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { ButtonLink, Icon, type IconName } from '@/components/atoms';
-import { money } from '@/lib/utils/format';
+import { money, usd } from '@/lib/utils/format';
 
 const card: React.CSSProperties = { background: '#fff', border: '1px solid var(--c-line)', borderRadius: 16, padding: 20 };
 
@@ -56,13 +56,13 @@ export function RevenueChart({ series }: { series: { day: string; revenue: numbe
     <figure style={{ ...card, margin: 0, display: 'grid', gap: 14 }}>
       <figcaption style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <span style={{ fontFamily: 'var(--f-serif)', fontSize: 20 }}>Revenue & bookings</span>
-        <strong>AED {money(series.reduce((a, d) => a + d.revenue, 0))}</strong>
+        <strong>{usd(series.reduce((a, d) => a + d.revenue, 0))}</strong>
       </figcaption>
       {series.length ? (
         <svg viewBox="0 0 100 40" preserveAspectRatio="none" style={{ width: '100%', height: 220 }} role="img" aria-label="Daily revenue and bookings for the selected period">
           {series.map((d, i) => (
             <g key={d.day}>
-              <rect x={i * w + w * 0.18} y={40 - (d.revenue / max) * 36} width={w * 0.3} height={(d.revenue / max) * 36} fill="#9d613d" rx={0.4}><title>{`${new Date(d.day).toDateString()}: AED ${money(d.revenue)}`}</title></rect>
+              <rect x={i * w + w * 0.18} y={40 - (d.revenue / max) * 36} width={w * 0.3} height={(d.revenue / max) * 36} fill="#9d613d" rx={0.4}><title>{`${new Date(d.day).toDateString()}: ${usd(d.revenue)}`}</title></rect>
               <rect x={i * w + w * 0.52} y={40 - (d.bookings / maxB) * 30} width={w * 0.3} height={(d.bookings / maxB) * 30} fill="#e3cfae" rx={0.4}><title>{`${d.bookings} bookings`}</title></rect>
             </g>
           ))}
