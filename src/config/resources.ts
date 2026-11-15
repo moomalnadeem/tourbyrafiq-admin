@@ -2,7 +2,7 @@
  * Config-driven admin. Every catalogue/content screen (AD7–AD22) is generated from these schemas by
  * the reusable ResourceTable + ResourceForm organisms. Add a field here → it appears in list + form.
  */
-export type FieldType = 'text' | 'textarea' | 'markdown' | 'number' | 'money' | 'select' | 'boolean' | 'tags' | 'image' | 'images' | 'date' | 'relation' | 'json';
+export type FieldType = 'text' | 'textarea' | 'richtext' | 'markdown' | 'number' | 'money' | 'select' | 'boolean' | 'tags' | 'image' | 'images' | 'date' | 'relation' | 'json';
 export interface Field {
   key: string; label: string; type: FieldType; required?: boolean; options?: string[]; hint?: string;
   relation?: { path: string; labelKey?: string }; folder?: string; full?: boolean;
@@ -45,7 +45,7 @@ export const RESOURCES: Record<string, ResourceConfig> = {
       { key: 'isRecommended', label: 'Recommended', type: 'boolean' },
       { key: 'images', label: 'Photos', type: 'images', folder: 'tours', full: true },
       { key: 'summary', label: 'Summary', type: 'textarea', full: true },
-      { key: 'description', label: 'Description', type: 'textarea', full: true },
+      { key: 'description', label: 'Description', type: 'richtext', full: true },
       { key: 'highlights', label: 'Highlights', type: 'tags', full: true },
       { key: 'inclusions', label: 'Included', type: 'tags' },
       { key: 'exclusions', label: 'Not included', type: 'tags' },
@@ -101,18 +101,18 @@ export const RESOURCES: Record<string, ResourceConfig> = {
       { key: 'discountPercent', label: 'Discount %', type: 'number' }, { key: 'promoCode', label: 'Promo code', type: 'text', hint: 'Create the code in Promo codes too' },
       { key: 'season', label: 'Season', type: 'select', options: ['', 'winter', 'spring', 'summer'] },
       { key: 'validFrom', label: 'Valid from', type: 'date' }, { key: 'validTo', label: 'Valid to', type: 'date' },
-      { key: 'image', label: 'Image', type: 'image', folder: 'general' }, { key: 'description', label: 'Description', type: 'textarea', full: true }, { key: 'terms', label: 'Terms', type: 'textarea', full: true },
+      { key: 'image', label: 'Image', type: 'image', folder: 'general' }, { key: 'description', label: 'Description', type: 'richtext', full: true }, { key: 'terms', label: 'Terms', type: 'richtext', full: true },
     ],
   },
   emirates: {
     key: 'emirates', title: 'Emirates', singular: 'emirate', api: 'admin/catalog/emirates', group: 'catalog', code: 'AD12',
     columns: [{ key: 'heroImage', label: '', render: 'image' }, { key: 'name', label: 'Emirate' }, { key: '_count.destinations', label: 'Destinations', render: 'count' }, { key: 'sortOrder', label: 'Order' }],
-    fields: [{ key: 'name', label: 'Name', type: 'text', required: true }, { key: 'sortOrder', label: 'Order', type: 'number' }, { key: 'heroImage', label: 'Hero image', type: 'image', folder: 'destinations' }, { key: 'tagline', label: 'Menu card eyebrow', type: 'text', hint: 'Mega menu feature card, e.g. City of superlatives' }, { key: 'menuImage', label: 'Menu card image', type: 'image', folder: 'destinations' }, { key: 'summary', label: 'Summary (menu card line)', type: 'textarea', full: true }, { key: 'description', label: 'Description', type: 'textarea', full: true }, ...seo],
+    fields: [{ key: 'name', label: 'Name', type: 'text', required: true }, { key: 'sortOrder', label: 'Order', type: 'number' }, { key: 'heroImage', label: 'Hero image', type: 'image', folder: 'destinations' }, { key: 'tagline', label: 'Menu card eyebrow', type: 'text', hint: 'Mega menu feature card, e.g. City of superlatives' }, { key: 'menuImage', label: 'Menu card image', type: 'image', folder: 'destinations' }, { key: 'summary', label: 'Summary (menu card line)', type: 'textarea', full: true }, { key: 'description', label: 'Description', type: 'richtext', full: true }, ...seo],
   },
   destinations: {
     key: 'destinations', title: 'Destinations', singular: 'destination', api: 'admin/catalog/destinations', group: 'catalog', code: 'AD12',
     columns: [{ key: 'image', label: '', render: 'image' }, { key: 'name', label: 'Destination' }, { key: 'emirate.name', label: 'Emirate' }, { key: 'isPopular', label: 'Popular', render: 'bool' }],
-    fields: [{ key: 'name', label: 'Name', type: 'text', required: true }, { key: 'emirateId', label: 'Emirate', type: 'relation', relation: { path: 'catalog/emirates' }, required: true }, { key: 'isPopular', label: 'Popular', type: 'boolean' }, { key: 'popularRank', label: 'Homepage mosaic position', type: 'number', hint: '1 = large tile, 2–5 = small tiles, empty = hidden' }, { key: 'sortOrder', label: 'Menu order', type: 'number' }, { key: 'image', label: 'Image', type: 'image', folder: 'destinations' }, { key: 'summary', label: 'Summary', type: 'textarea', full: true }, { key: 'description', label: 'Description', type: 'textarea', full: true }],
+    fields: [{ key: 'name', label: 'Name', type: 'text', required: true }, { key: 'emirateId', label: 'Emirate', type: 'relation', relation: { path: 'catalog/emirates' }, required: true }, { key: 'isPopular', label: 'Popular', type: 'boolean' }, { key: 'popularRank', label: 'Homepage mosaic position', type: 'number', hint: '1 = large tile, 2–5 = small tiles, empty = hidden' }, { key: 'sortOrder', label: 'Menu order', type: 'number' }, { key: 'image', label: 'Image', type: 'image', folder: 'destinations' }, { key: 'summary', label: 'Summary', type: 'textarea', full: true }, { key: 'description', label: 'Description', type: 'richtext', full: true }],
   },
   attractions: {
     key: 'attractions', title: 'Attractions & tickets', singular: 'attraction', api: 'admin/catalog/attractions', group: 'catalog', code: 'AD12',
@@ -127,7 +127,7 @@ export const RESOURCES: Record<string, ResourceConfig> = {
   blog: {
     key: 'blog', title: 'Blog', singular: 'article', api: 'admin/content/blog', group: 'content', code: 'AD16', statusFilter: STATUS,
     columns: [{ key: 'coverImage', label: '', render: 'image' }, { key: 'title', label: 'Article' }, { key: 'category', label: 'Category' }, { key: 'publishedAt', label: 'Published', render: 'date' }, { key: 'status', label: 'Status', render: 'status' }],
-    fields: [{ key: 'title', label: 'Title', type: 'text', required: true, full: true }, { key: 'slug', label: 'URL slug', type: 'text' }, { key: 'status', label: 'Status', type: 'select', options: STATUS }, { key: 'category', label: 'Category', type: 'select', options: ['Travel tips', 'Destination guides', 'Inspiration', 'News'] }, { key: 'readMinutes', label: 'Read time (min)', type: 'number' }, { key: 'tags', label: 'Tags', type: 'tags' }, { key: 'coverImage', label: 'Cover image', type: 'image', folder: 'blog' }, { key: 'excerpt', label: 'Excerpt', type: 'textarea', full: true }, { key: 'content', label: 'Content (Markdown)', type: 'markdown', required: true, full: true }, ...seo],
+    fields: [{ key: 'title', label: 'Title', type: 'text', required: true, full: true }, { key: 'slug', label: 'URL slug', type: 'text' }, { key: 'status', label: 'Status', type: 'select', options: STATUS }, { key: 'category', label: 'Category', type: 'select', options: ['Travel tips', 'Destination guides', 'Inspiration', 'News'] }, { key: 'readMinutes', label: 'Read time (min)', type: 'number' }, { key: 'tags', label: 'Tags', type: 'tags' }, { key: 'coverImage', label: 'Cover image', type: 'image', folder: 'blog' }, { key: 'excerpt', label: 'Excerpt', type: 'textarea', full: true }, { key: 'content', label: 'Content', type: 'richtext', required: true, full: true }, ...seo],
   },
   pages: {
     key: 'pages', title: 'Pages', singular: 'page', api: 'admin/content/pages', group: 'content', code: 'AD13', statusFilter: STATUS,
@@ -137,7 +137,7 @@ export const RESOURCES: Record<string, ResourceConfig> = {
   faqs: {
     key: 'faqs', title: 'FAQs', singular: 'FAQ', api: 'admin/content/faqs', group: 'content', code: 'AD21',
     columns: [{ key: 'question', label: 'Question' }, { key: 'category', label: 'Category' }, { key: 'sortOrder', label: 'Order' }, { key: 'published', label: 'Live', render: 'bool' }],
-    fields: [{ key: 'question', label: 'Question', type: 'text', required: true, full: true }, { key: 'answer', label: 'Answer', type: 'textarea', required: true, full: true }, { key: 'category', label: 'Category', type: 'select', options: ['general', 'booking', 'payment', 'account', 'visa'] }, { key: 'sortOrder', label: 'Order', type: 'number' }, { key: 'published', label: 'Published', type: 'boolean' }],
+    fields: [{ key: 'question', label: 'Question', type: 'text', required: true, full: true }, { key: 'answer', label: 'Answer', type: 'richtext', required: true, full: true }, { key: 'category', label: 'Category', type: 'select', options: ['general', 'booking', 'payment', 'account', 'visa'] }, { key: 'sortOrder', label: 'Order', type: 'number' }, { key: 'published', label: 'Published', type: 'boolean' }],
   },
   inquiries: {
     key: 'inquiries', title: 'Inquiries', singular: 'inquiry', api: 'admin/content/inquiries', group: 'content', code: 'AD27', statusFilter: ['NEW', 'IN_PROGRESS', 'CLOSED'],

@@ -2,8 +2,9 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useMemo, useState, type CSSProperties, type ReactNode } from 'react';
-import { Button, FormField, Icon, Input, Select, Skeleton, StatusPill, Textarea } from '@/components/atoms';
+import { Button, FormField, Icon, Input, Select, Skeleton, StatusPill } from '@/components/atoms';
 import { apiFetch } from '@/lib/api/client';
+import { RichTextEditor } from '../RichTextEditor';
 import { useToast } from '../Toaster';
 import { useApi } from '../useApi';
 import { PageTitle } from '../Widgets';
@@ -84,7 +85,7 @@ function Form({ kind, initial }: { kind: ConfigKind; initial?: any }) {
             </FormField>
           </div>
           <FormField label="Description" hint="Optional — helps the team understand what switching it off hides">
-            {(id) => <Textarea id={id} rows={3} maxLength={500} value={v.description} onChange={(e) => set('description', e.target.value)} />}
+            {(id) => <RichTextEditor id={id} value={v.description} onChange={(html) => set('description', html)} minHeight={140} folder="general" placeholder="Describe what this controls…" />}
           </FormField>
         </Section>
 

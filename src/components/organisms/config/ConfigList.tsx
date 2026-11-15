@@ -25,6 +25,9 @@ const code = { fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace', fon
 const chip = { display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12.5, fontWeight: 600, padding: '4px 10px', borderRadius: 999, border: '1px solid var(--a-teal-bg)', background: '#f0fdfa', color: 'var(--a-teal)', whiteSpace: 'nowrap' as const };
 const iconBtn = { display: 'grid', placeItems: 'center', width: 34, height: 34, borderRadius: 10, border: '1px solid var(--a-sky-bg)', background: '#f0f9ff', color: 'var(--a-sky)' };
 
+/** HTML from the rich text editor → one line of plain text for the table. */
+const plain = (html: string) => String(html ?? '').replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim();
+
 /** Status of one row, including "published but hidden because its module is off" for features. */
 function statusOf(kind: ConfigKind, row: any): { label: string; tone: 'ok' | 'neutral' | 'warn' } {
   if (!row.published) return { label: 'Unpublished', tone: 'neutral' };
@@ -85,7 +88,7 @@ export function ConfigList({ kind }: { kind: ConfigKind }) {
       cell: (r) => (
         <div style={{ display: 'grid', gap: 3, minWidth: 220 }}>
           <strong style={{ fontWeight: 600 }}>{r.name}</strong>
-          {r.description && <span style={{ fontSize: 12.5, color: 'var(--c-muted)', maxWidth: 420, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.description}</span>}
+          {r.description && <span style={{ fontSize: 12.5, color: 'var(--c-muted)', maxWidth: 420, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{plain(r.description)}</span>}
         </div>
       ),
     },

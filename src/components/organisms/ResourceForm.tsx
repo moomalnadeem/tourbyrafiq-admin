@@ -5,6 +5,7 @@ import { Button, FormField, Input, Select, Textarea } from '@/components/atoms';
 import type { Field, ResourceConfig } from '@/config/resources';
 import { apiFetch } from '@/lib/api/client';
 import { ImageUpload } from './ImageUpload';
+import { RichTextEditor } from './RichTextEditor';
 import { useApi } from './useApi';
 import { useToast } from './Toaster';
 
@@ -75,7 +76,7 @@ export function ResourceForm({ config, initial }: { config: ResourceConfig; init
   return (
     <form onSubmit={save} style={{ background: '#fff', border: '1px solid var(--c-line)', borderRadius: 16, padding: 24, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 18 }}>
       {config.fields.map((f) => (
-        <div key={f.key} style={f.full || ['textarea', 'markdown', 'json', 'images', 'tags'].includes(f.type) ? { gridColumn: '1 / -1' } : undefined}>
+        <div key={f.key} style={f.full || ['textarea', 'richtext', 'markdown', 'json', 'images', 'tags'].includes(f.type) ? { gridColumn: '1 / -1' } : undefined}>
           {f.type === 'boolean' ? (
             <label style={{ display: 'flex', gap: 10, alignItems: 'center', height: '100%', fontWeight: 600, fontSize: 14 }}>
               <input type="checkbox" checked={!!values[f.key]} onChange={(e) => set(f.key, e.target.checked)} style={{ width: 18, height: 18, accentColor: 'var(--c-brand)' }} />{f.label}
@@ -85,6 +86,7 @@ export function ResourceForm({ config, initial }: { config: ResourceConfig; init
               {(id) => {
                 switch (f.type) {
                   case 'textarea': return <Textarea id={id} value={values[f.key]} onChange={(e) => set(f.key, e.target.value)} />;
+                  case 'richtext': return <RichTextEditor id={id} value={values[f.key]} onChange={(html) => set(f.key, html)} folder={f.folder ?? config.key} placeholder={`Write the ${f.label.toLowerCase()}…`} />;
                   case 'markdown': case 'json': return <Textarea id={id} value={values[f.key]} onChange={(e) => set(f.key, e.target.value)} style={{ minHeight: 220, fontFamily: 'ui-monospace, Menlo, monospace', fontSize: 13 }} />;
                   case 'select': return <Select id={id} value={values[f.key] ?? ''} onChange={(e) => set(f.key, e.target.value)}>{(f.options ?? []).map((o) => <option key={o} value={o}>{o ? o.replace(/_/g, ' ').toLowerCase() : '—'}</option>)}</Select>;
                   case 'relation': return <RelationSelect id={id} field={f} value={values[f.key]} onChange={(v) => set(f.key, v)} />;

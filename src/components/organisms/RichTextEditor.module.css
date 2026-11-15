@@ -1,0 +1,55 @@
+.wrap { border: 1px solid var(--c-line); border-radius: 12px; background: #fff; overflow: visible; transition: border-color .15s, box-shadow .15s; }
+.wrap:focus-within { border-color: var(--c-gold); box-shadow: 0 0 0 3px rgba(198,161,91,.2); }
+
+.toolbar {
+  position: sticky; top: 64px; z-index: 5; display: flex; flex-wrap: wrap; align-items: center; gap: 2px;
+  padding: 6px 8px; border-bottom: 1px solid var(--c-line); border-radius: 12px 12px 0 0;
+  background: linear-gradient(180deg, #fdf8f2, #f8efe4);
+}
+.btn {
+  min-width: 32px; height: 32px; padding: 0 7px; border: 1px solid transparent; border-radius: 8px; background: transparent;
+  display: inline-grid; place-items: center; font-size: 13.5px; color: var(--c-ink); line-height: 1; cursor: pointer;
+  transition: background .12s, color .12s, border-color .12s;
+}
+.btn:hover:not(:disabled) { background: #fff; border-color: var(--c-line); }
+.btn[data-active] { background: var(--a-indigo-bg); color: var(--a-indigo); border-color: #c7d2fe; }
+.btn:disabled { opacity: .35; cursor: default; }
+.sep { width: 1px; height: 22px; background: var(--c-line); margin: 0 4px; }
+.select { height: 32px; border: 1px solid var(--c-line); border-radius: 8px; background: #fff; padding: 0 8px; font-size: 13px; }
+.sourceLabel { font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--c-brand); padding: 0 6px; margin-right: auto; }
+
+.pop { position: relative; }
+.swatches {
+  position: absolute; top: 38px; left: 0; z-index: 10; display: grid; grid-template-columns: repeat(6, 24px); gap: 6px;
+  padding: 10px; background: #fff; border: 1px solid var(--c-line); border-radius: 12px; box-shadow: 0 14px 32px rgba(42,32,27,.16);
+}
+.swatch { width: 24px; height: 24px; border-radius: 6px; border: 1px solid rgba(0,0,0,.12); cursor: pointer; }
+.swatch:hover { transform: scale(1.1); }
+.clear { grid-column: 1 / -1; height: 28px; border: 1px solid var(--c-line); border-radius: 8px; background: #fff; font-size: 12px; cursor: pointer; }
+
+.content { padding: 16px 18px; outline: none; font-size: 15px; line-height: 1.7; color: var(--c-ink); }
+.content > * + * { margin-top: .75em; }
+.content h2 { font-family: var(--f-serif); font-size: 26px; line-height: 1.25; }
+.content h3 { font-family: var(--f-serif); font-size: 21px; }
+.content h4 { font-size: 16px; font-weight: 700; }
+.content ul, .content ol { padding-left: 22px; }
+.content ul[data-type='taskList'] { list-style: none; padding-left: 2px; }
+.content ul[data-type='taskList'] li { display: flex; gap: 8px; align-items: flex-start; }
+.content ul[data-type='taskList'] li > label { margin-top: 3px; }
+.content blockquote { border-left: 4px solid var(--c-gold); background: #fdf8f2; margin: 0; padding: 10px 16px; border-radius: 0 10px 10px 0; color: var(--c-muted); }
+.content pre { background: #1e1714; color: #f3e7d6; padding: 14px 16px; border-radius: 10px; font-size: 13px; overflow-x: auto; }
+.content code { background: var(--a-indigo-bg); color: var(--a-indigo); padding: 1px 6px; border-radius: 5px; font-size: .9em; }
+.content pre code { background: none; color: inherit; padding: 0; }
+.content a { color: var(--a-sky); text-decoration: underline; }
+.content img { max-width: 100%; height: auto; border-radius: 10px; }
+.content img.ProseMirror-selectednode { outline: 3px solid var(--c-gold); }
+.content hr { border: 0; border-top: 2px solid var(--c-line); margin: 1.4em 0; }
+.content table { border-collapse: collapse; width: 100%; margin: 0; }
+.content th, .content td { border: 1px solid var(--c-line); padding: 8px 10px; vertical-align: top; min-width: 60px; }
+.content th { background: #f8efe4; font-weight: 700; text-align: left; }
+.content :global(.selectedCell) { background: #fef3c7; }
+.content mark { border-radius: 3px; padding: 0 2px; }
+.content p:global(.is-editor-empty):first-child::before { content: attr(data-placeholder); color: var(--c-faint, #a39488); float: left; height: 0; pointer-events: none; }
+
+.source { width: 100%; border: 0; padding: 16px 18px; font: 12.5px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace; resize: vertical; outline: none; background: #fbfaf8; }
+.foot { padding: 6px 12px; border-top: 1px solid var(--c-line); font-size: 11.5px; color: var(--c-muted); text-align: right; background: #fdfaf6; border-radius: 0 0 12px 12px; }
