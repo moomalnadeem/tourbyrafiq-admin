@@ -14,6 +14,10 @@ export const can = (role: string | undefined, perm?: string) => !perm || ROLE_PE
 export interface NavItem { href: string; label: string; icon: IconName; perm?: string }
 export const ADMIN_NAV: { group: string; items: NavItem[] }[] = [
   { group: 'Overview', items: [{ href: '/', label: 'Dashboard', icon: 'home', perm: 'bookings:read' }] },
+  { group: 'Config', items: [
+    { href: '/config/modules', label: 'Modules', icon: 'copy', perm: 'system:settings' },
+    { href: '/config/features', label: 'Features & functionality', icon: 'filter', perm: 'system:settings' },
+  ] },
   { group: 'Sales', items: [
     { href: '/bookings', label: 'Bookings', icon: 'ticket', perm: 'bookings:read' },
     { href: '/payments', label: 'Payments', icon: 'tag', perm: 'payments:read' },
