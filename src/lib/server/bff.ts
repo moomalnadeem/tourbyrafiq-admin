@@ -56,3 +56,9 @@ export async function proxy(req: NextRequest, segments: string[], rules: ProxyRu
 export function json(data: unknown, status = 200) {
   return NextResponse.json(data ?? {}, { status, headers: { 'Cache-Control': 'no-store' } });
 }
+
+/** Role options per portal — the email must hold exactly the chosen role (checked before a code is sent). */
+const PORTAL_ROLES: Record<string, string[]> = { admin: ['super_admin', 'admin', 'editor', 'support', 'finance'], guide: ['guide'] };
+export function portalRole(portal: string, accountType: unknown): string | undefined {
+  return typeof accountType === 'string' && PORTAL_ROLES[portal]?.includes(accountType) ? accountType : undefined;
+}
