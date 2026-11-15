@@ -8,6 +8,8 @@ import { useApi } from '@/components/organisms/useApi';
 import { Avatar, ROLE_KEYS, ROLE_META, RoleBadge } from '@/components/organisms/users/RoleBadge';
 import { KpiTile, PageTitle } from '@/components/organisms/Widgets';
 import { apiFetch } from '@/lib/api/client';
+import { useCurrentUser } from '@/components/organisms/useCurrentUser';
+import { ButtonLink } from '@/components/atoms';
 
 const panel: CSSProperties = { background: '#fff', border: '1px solid var(--c-line)', borderRadius: 16, padding: 22, boxShadow: '0 10px 28px rgba(42,32,27,.05)', display: 'grid', gap: 16, alignContent: 'start' };
 const dt = (d?: string) => (d ? new Date(d).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—');
@@ -37,6 +39,7 @@ function Row({ label, children }: { label: string; children: ReactNode }) {
 export default function UserDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const toast = useToast();
+  const me = useCurrentUser();
   const { data: u, loading, error, reload } = useApi<any>(`admin/users/${id}`);
   const [role, setRole] = useState('');
   const [busy, setBusy] = useState('');
@@ -77,6 +80,7 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
           <span style={{ fontSize: 13, color: 'var(--c-muted)' }}>Joined {dt(u.createdAt)} · Last sign-in {dt(u.lastLoginAt)}</span>
         </div>
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+          {me.role === 'SUPER_ADMIN' && <ButtonLink href={`/users/${u.id}/edit`} variant="outline" iconLeft="edit">Edit user</ButtonLink>}
           <Button type="button" variant={suspended ? 'primary' : 'outline'} onClick={toggleStatus} disabled={busy === 'status'} iconLeft={suspended ? 'check' : 'close'}>
             {busy === 'status' ? 'Saving…' : suspended ? 'Reactivate' : 'Suspend'}
           </Button>

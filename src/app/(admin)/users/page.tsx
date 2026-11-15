@@ -7,6 +7,8 @@ import { DataTable } from '@/components/organisms/DataTable';
 import { ReportCards } from '@/components/organisms/ReportCards';
 import { Avatar, ROLE_KEYS, ROLE_META, RoleBadge } from '@/components/organisms/users/RoleBadge';
 import { PageTitle } from '@/components/organisms/Widgets';
+import { useCurrentUser } from '@/components/organisms/useCurrentUser';
+import { ButtonLink } from '@/components/atoms';
 
 const when = (d?: string) => (d ? new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : '—');
 
@@ -14,11 +16,13 @@ const when = (d?: string) => (d ? new Date(d).toLocaleDateString('en-GB', { day:
 function AllUsers() {
   const router = useRouter();
   const sp = useSearchParams();
+  const me = useCurrentUser();
   const [role, setRole] = useState(sp.get('role') ?? '');
   const path = `admin/users${role ? `?role=${role}` : ''}`;
   return (
     <>
-      <PageTitle title="All users" description="Every account on the platform — tourists, companies, tour guides and staff. Each email holds exactly one role." />
+      <PageTitle title="All users" description="Every account on the platform — tourists, companies, tour guides and staff. Each email holds exactly one role."
+        actions={me.role === 'SUPER_ADMIN' ? <ButtonLink href="/users/new" iconLeft="plus">Add user</ButtonLink> : undefined} />
       <ReportCards path="admin/users" cards={[
         { label: 'Total users', icon: 'users', tone: 'indigo', query: '' },
         { label: 'Tourists', icon: 'user', tone: 'sky', query: 'role=TOURIST' },
