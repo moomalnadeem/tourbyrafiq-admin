@@ -1,4 +1,10 @@
 'use client';
+import { notFound } from 'next/navigation';
 import { use } from 'react';
-import { ResourceList } from '@/components/organisms/ResourcePages';
-export default function Page({ params }: { params: Promise<{ resource: string }> }) { return <ResourceList group="config" resource={use(params).resource} />; }
+import { ConfigList } from '@/components/organisms/config/ConfigList';
+
+export default function Page({ params }: { params: Promise<{ resource: string }> }) {
+  const { resource } = use(params);
+  if (resource !== 'modules' && resource !== 'features') notFound();
+  return <ConfigList kind={resource} />;
+}

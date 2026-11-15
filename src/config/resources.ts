@@ -148,31 +148,4 @@ export const RESOURCES: Record<string, ResourceConfig> = {
     key: 'subscribers', title: 'Newsletter subscribers', singular: 'subscriber', api: 'admin/content/subscribers', group: 'content', code: 'AD28', readOnly: true,
     columns: [{ key: 'email', label: 'Email' }, { key: 'createdAt', label: 'Subscribed', render: 'date' }], fields: [],
   },
-  modules: {
-    key: 'modules', title: 'Modules', singular: 'module', api: 'admin/config/modules', group: 'config', code: 'CFG1', publishToggle: true,
-    description: 'Switch whole areas of the project on or off. An unpublished module — and every feature inside it — is hidden across the website and app.',
-    statusFilter: ['PUBLISHED', 'UNPUBLISHED'],
-    columns: [{ key: 'name', label: 'Module' }, { key: 'key', label: 'Key' }, { key: '_count.features', label: 'Features', render: 'count' }, { key: 'sortOrder', label: 'Order' }, { key: 'published', label: 'Published', render: 'bool' }],
-    fields: [
-      { key: 'name', label: 'Name', type: 'text', required: true },
-      { key: 'key', label: 'Key', type: 'text', required: true, hint: 'Unique id used by the code, e.g. tours — lowercase letters, numbers, _ . -' },
-      { key: 'published', label: 'Published (visible everywhere)', type: 'boolean' },
-      { key: 'sortOrder', label: 'Order', type: 'number' },
-      { key: 'description', label: 'Description', type: 'textarea', full: true },
-    ],
-  },
-  features: {
-    key: 'features', title: 'Features', singular: 'feature', api: 'admin/config/features', group: 'config', code: 'CFG2', publishToggle: true,
-    description: 'Switch individual features on or off. A feature is live only when it and its module are both published.',
-    statusFilter: ['PUBLISHED', 'UNPUBLISHED'],
-    columns: [{ key: 'name', label: 'Feature' }, { key: 'key', label: 'Key' }, { key: 'module.name', label: 'Module' }, { key: 'module.published', label: 'Module live', render: 'bool' }, { key: 'published', label: 'Published', render: 'bool' }],
-    fields: [
-      { key: 'name', label: 'Name', type: 'text', required: true },
-      { key: 'key', label: 'Key', type: 'text', required: true, hint: 'Unique id used by the code, e.g. home.hero_slider' },
-      { key: 'moduleId', label: 'Module', type: 'relation', required: true, relation: { path: 'admin/config/modules', labelKey: 'name' } },
-      { key: 'published', label: 'Published (visible everywhere)', type: 'boolean' },
-      { key: 'sortOrder', label: 'Order', type: 'number' },
-      { key: 'description', label: 'Description', type: 'textarea', full: true },
-    ],
-  },
 };
