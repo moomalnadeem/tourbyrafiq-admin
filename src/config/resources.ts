@@ -25,7 +25,7 @@ const seo: Field[] = [{ key: 'seoTitle', label: 'SEO title', type: 'text' }, { k
 export const RESOURCES: Record<string, ResourceConfig> = {
   tours: {
     key: 'tours', title: 'Tours & activities', singular: 'tour', api: 'admin/catalog/tours', group: 'catalog', code: 'AD7', statusFilter: STATUS,
-    columns: [{ key: 'images', label: '', render: 'image' }, { key: 'title', label: 'Tour' }, { key: 'locationLabel', label: 'Category · location' }, { key: 'priceFrom', label: 'From', render: 'money' }, { key: 'rating', label: 'Rating' }, { key: 'status', label: 'Status', render: 'status' }],
+    columns: [{ key: 'images', label: '', render: 'image' }, { key: 'title', label: 'Tour' }, { key: 'locationLabel', label: 'Category · location' }, { key: 'priceFrom', label: 'From', render: 'money' }, { key: 'halfDayPrice', label: 'Half day', render: 'money' }, { key: 'fullDayPrice', label: 'Full day', render: 'money' }, { key: 'rating', label: 'Rating' }, { key: 'status', label: 'Status', render: 'status' }],
     fields: [
       { key: 'title', label: 'Title', type: 'text', required: true, full: true },
       { key: 'slug', label: 'URL slug', type: 'text', hint: 'Leave empty to generate from title' },
@@ -36,6 +36,8 @@ export const RESOURCES: Record<string, ResourceConfig> = {
       { key: 'badge', label: 'Badge', type: 'text', hint: 'Best seller, New, Top rated…' },
       { key: 'priceFrom', label: 'Adult price ($, under $400)', type: 'money', required: true },
       { key: 'childPrice', label: 'Child price ($, under $400)', type: 'money' },
+      { key: 'halfDayPrice', label: 'Half-day price per person ($, under $400)', type: 'money' },
+      { key: 'fullDayPrice', label: 'Full-day price per person ($, under $400)', type: 'money' },
       { key: 'durationHours', label: 'Duration (hours)', type: 'number' },
       { key: 'maxGuests', label: 'Max guests', type: 'number' },
       { key: 'tourType', label: 'Type', type: 'select', options: ['PRIVATE', 'SHARED'] },
