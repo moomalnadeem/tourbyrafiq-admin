@@ -1,6 +1,6 @@
 .wrap { display: flex; flex-direction: column; }
 .from { font-size: 11px; color: var(--c-faint); }
-.row { display: inline-flex; align-items: center; gap: 4px; font-weight: 600; color: var(--c-ink); }
+.row { position: relative; display: inline-flex; align-items: center; gap: 4px; font-weight: 600; color: var(--c-ink); }
 .md .row { font-size: 22px; }
 .lg .row { font-size: 30px; }
 .sm .row { font-size: 16px; }
