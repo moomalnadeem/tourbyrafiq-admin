@@ -18,6 +18,10 @@ export const ADMIN_NAV: { group: string; items: NavItem[] }[] = [
     { href: '/config/modules', label: 'Modules', icon: 'copy', perm: 'system:settings' },
     { href: '/config/features', label: 'Features', icon: 'filter', perm: 'system:settings' },
   ] },
+  { group: 'Users', items: [
+    { href: '/users', label: 'All users', icon: 'users', perm: 'people:read' },
+    { href: '/users/roles', label: 'Roles', icon: 'shield', perm: 'people:read' },
+  ] },
   { group: 'Sales', items: [
     { href: '/bookings', label: 'Bookings', icon: 'ticket', perm: 'bookings:read' },
     { href: '/payments', label: 'Payments', icon: 'tag', perm: 'payments:read' },
