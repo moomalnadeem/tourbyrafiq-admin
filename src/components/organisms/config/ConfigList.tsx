@@ -21,9 +21,9 @@ interface Stats {
   features: { total: number; published: number; unpublished: number; hiddenByModule: number; live: number };
 }
 
-const code = { fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace', fontSize: 12, background: 'var(--c-cream, #f4eee6)', color: 'var(--c-ink)', padding: '3px 8px', borderRadius: 6, whiteSpace: 'nowrap' as const };
-const chip = { display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12.5, fontWeight: 600, padding: '4px 10px', borderRadius: 999, border: '1px solid var(--c-line)', background: '#fff', whiteSpace: 'nowrap' as const };
-const iconBtn = { display: 'grid', placeItems: 'center', width: 34, height: 34, borderRadius: 8, border: '1px solid var(--c-line)', background: '#fff', color: 'var(--c-ink)' };
+const code = { fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace', fontSize: 12, background: 'var(--a-indigo-bg)', color: 'var(--a-indigo)', padding: '3px 8px', borderRadius: 6, whiteSpace: 'nowrap' as const };
+const chip = { display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12.5, fontWeight: 600, padding: '4px 10px', borderRadius: 999, border: '1px solid var(--a-teal-bg)', background: '#f0fdfa', color: 'var(--a-teal)', whiteSpace: 'nowrap' as const };
+const iconBtn = { display: 'grid', placeItems: 'center', width: 34, height: 34, borderRadius: 10, border: '1px solid var(--a-sky-bg)', background: '#f0f9ff', color: 'var(--a-sky)' };
 
 /** Status of one row, including "published but hidden because its module is off" for features. */
 function statusOf(kind: ConfigKind, row: any): { label: string; tone: 'ok' | 'neutral' | 'warn' } {
@@ -67,16 +67,16 @@ export function ConfigList({ kind }: { kind: ConfigKind }) {
   const pct = (n?: number) => (s?.total ? `${Math.round(((n ?? 0) / s.total) * 100)}% of all ${text.title.toLowerCase()}` : undefined);
   const cards = kind === 'modules'
     ? [
-        { label: 'Total modules', value: s?.total, icon: 'layers' as const, sub: 'Areas of the website & app' },
-        { label: 'Published', value: s?.published, icon: 'eye' as const, sub: pct(s?.published) },
-        { label: 'Unpublished', value: s?.unpublished, icon: 'eye-off' as const, sub: s?.unpublished ? 'Hidden everywhere with their features' : 'Nothing hidden' },
-        { label: 'Features inside', value: stats?.modules.features, icon: 'filter' as const, sub: 'Across all modules' },
+        { label: 'Total modules', value: s?.total, icon: 'layers' as const, tone: 'indigo' as const, sub: 'Areas of the website & app' },
+        { label: 'Published', value: s?.published, icon: 'eye' as const, tone: 'emerald' as const, sub: pct(s?.published) },
+        { label: 'Unpublished', value: s?.unpublished, icon: 'eye-off' as const, tone: 'rose' as const, sub: s?.unpublished ? 'Hidden everywhere with their features' : 'Nothing hidden' },
+        { label: 'Features inside', value: stats?.modules.features, icon: 'filter' as const, tone: 'teal' as const, sub: 'Across all modules' },
       ]
     : [
-        { label: 'Total features', value: s?.total, icon: 'layers' as const, sub: 'Sections, menus & functions' },
-        { label: 'Live on site', value: s?.live, icon: 'eye' as const, sub: pct(s?.live) },
-        { label: 'Unpublished', value: s?.unpublished, icon: 'eye-off' as const, sub: 'Switched off individually' },
-        { label: 'Hidden by module', value: s?.hiddenByModule, icon: 'shield' as const, sub: s?.hiddenByModule ? 'Published, but their module is off' : 'None' },
+        { label: 'Total features', value: s?.total, icon: 'layers' as const, tone: 'indigo' as const, sub: 'Sections, menus & functions' },
+        { label: 'Live on site', value: s?.live, icon: 'eye' as const, tone: 'emerald' as const, sub: pct(s?.live) },
+        { label: 'Unpublished', value: s?.unpublished, icon: 'eye-off' as const, tone: 'rose' as const, sub: 'Switched off individually' },
+        { label: 'Hidden by module', value: s?.hiddenByModule, icon: 'shield' as const, tone: 'amber' as const, sub: s?.hiddenByModule ? 'Published, but their module is off' : 'None' },
       ];
 
   const columns: TableColumn[] = [
@@ -110,7 +110,7 @@ export function ConfigList({ kind }: { kind: ConfigKind }) {
         actions={<ButtonLink href={`/config/${kind}/new`} iconLeft="plus">{`Add ${text.singular}`}</ButtonLink>} />
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16, marginBottom: 20 }}>
-        {cards.map((c) => <KpiTile key={c.label} label={c.label} value={c.value === undefined ? '—' : String(c.value)} sub={c.sub} icon={c.icon} />)}
+        {cards.map((c) => <KpiTile key={c.label} label={c.label} value={c.value === undefined ? '—' : String(c.value)} sub={c.sub} icon={c.icon} tone={c.tone} />)}
       </div>
 
       <DataTable

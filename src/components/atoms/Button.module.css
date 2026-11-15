@@ -9,8 +9,8 @@
 .md { height: 44px; padding: 0 18px; font-size: 11.5px; letter-spacing: 1.38px; }
 .sm { height: 36px; padding: 0 14px; font-size: 11px; letter-spacing: 1.2px; }
 .full { width: 100%; }
-.primary { background: var(--c-brand); color: #fff; }
-.primary:hover { background: var(--c-brand-dark); }
+.primary { background: var(--a-brand-grad); background-size: 140% 140%; background-position: 0% 50%; color: #fff; box-shadow: 0 8px 20px rgba(157,97,61,.28); transition: background-position .3s, box-shadow .2s, transform .1s; }
+.primary:hover { background-position: 100% 50%; box-shadow: 0 10px 24px rgba(157,97,61,.36); }
 .gold { background: var(--c-gold); color: var(--c-ink); }
 .glass { background: rgba(255, 255, 255, .14); border-color: rgba(255, 255, 255, .45); color: #fff; backdrop-filter: blur(8px); }
 .glass:hover { background: rgba(255, 255, 255, .24); }

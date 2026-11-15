@@ -13,6 +13,7 @@ export function PageTitle({ title, crumb, actions, description }: { title: strin
       <div style={{ display: 'grid', gap: 6 }}>
         <nav aria-label="Breadcrumb" style={{ fontSize: 12.5, color: 'var(--c-muted)' }}><Link href="/">Admin</Link> › <span style={{ color: 'var(--c-brand)' }}>{crumb ?? title}</span></nav>
         <h1 style={{ fontFamily: 'var(--f-serif)', fontSize: 'clamp(26px, 3vw, 34px)' }}>{title}</h1>
+        <span aria-hidden style={{ width: 56, height: 4, borderRadius: 4, background: 'linear-gradient(90deg, #c6a15b, #9d613d 60%, #0d9488)' }} />
         {description && <p style={{ color: 'var(--c-muted)', fontSize: 14 }}>{description}</p>}
       </div>
       {actions && <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>{actions}</div>}
@@ -20,12 +21,28 @@ export function PageTitle({ title, crumb, actions, description }: { title: strin
   );
 }
 
-export function KpiTile({ label, value, sub, icon }: { label: string; value: string; sub?: string; icon: IconName }) {
+export type KpiTone = 'teal' | 'indigo' | 'emerald' | 'amber' | 'rose' | 'sky' | 'violet' | 'brand';
+const KPI_TONES: KpiTone[] = ['teal', 'indigo', 'emerald', 'amber', 'rose', 'sky', 'violet'];
+/** Stable colour per label, so the same KPI always gets the same colour. */
+const toneOf = (label: string): KpiTone => KPI_TONES[[...label].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7) % KPI_TONES.length];
+
+export function KpiTile({ label, value, sub, icon, tone }: { label: string; value: string; sub?: string; icon: IconName; tone?: KpiTone }) {
+  const t = tone ?? toneOf(label);
+  const fg = t === 'brand' ? 'var(--c-brand)' : `var(--a-${t})`;
+  const bg = t === 'brand' ? '#f6e9dc' : `var(--a-${t}-bg)`;
   return (
-    <div style={{ ...card, display: 'grid', gap: 8 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--c-muted)', fontSize: 11, letterSpacing: 1.3, textTransform: 'uppercase', fontWeight: 600 }}>{label}<Icon name={icon} size={17} style={{ color: 'var(--c-brand)' }} /></div>
-      <div style={{ fontFamily: 'var(--f-serif)', fontSize: 30 }}>{value}</div>
-      {sub && <div style={{ fontSize: 12.5, color: 'var(--c-muted)' }}>{sub}</div>}
+    <div style={{
+      ...card, position: 'relative', overflow: 'hidden', display: 'grid', gap: 10,
+      background: `linear-gradient(160deg, #fff 55%, ${bg} 160%)`, boxShadow: '0 10px 28px rgba(42,32,27,.06)',
+      borderTop: `3px solid ${fg}`,
+    }}>
+      <span aria-hidden style={{ position: 'absolute', right: -28, top: -28, width: 110, height: 110, borderRadius: '50%', background: bg, opacity: 0.55 }} />
+      <div style={{ position: 'relative', display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: 'var(--c-muted)', fontSize: 11, letterSpacing: 1.3, textTransform: 'uppercase', fontWeight: 700 }}>
+        {label}
+        <span style={{ display: 'grid', placeItems: 'center', width: 38, height: 38, borderRadius: 12, background: bg, color: fg, boxShadow: `0 6px 14px ${bg}` }}><Icon name={icon} size={19} /></span>
+      </div>
+      <div style={{ position: 'relative', fontFamily: 'var(--f-serif)', fontSize: 34, lineHeight: 1, color: 'var(--c-ink)' }}>{value}</div>
+      {sub && <div style={{ position: 'relative', fontSize: 12.5, color: fg, fontWeight: 600 }}>{sub}</div>}
     </div>
   );
 }

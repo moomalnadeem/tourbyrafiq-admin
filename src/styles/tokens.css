@@ -1,5 +1,15 @@
 /* Design tokens — extracted from Figma "Tours By Rafiq" (header, hero, cards, footer, admin). */
 :root {
+  /* Admin accent palette — colour with meaning on top of the brand browns */
+  --a-teal: #0d9488;    --a-teal-bg: #ccfbf1;
+  --a-indigo: #4f46e5;  --a-indigo-bg: #e0e7ff;
+  --a-emerald: #059669; --a-emerald-bg: #d1fae5;
+  --a-amber: #d97706;   --a-amber-bg: #fef3c7;
+  --a-rose: #e11d48;    --a-rose-bg: #ffe4e6;
+  --a-sky: #0284c7;     --a-sky-bg: #e0f2fe;
+  --a-violet: #7c3aed;  --a-violet-bg: #ede9fe;
+  --a-brand-grad: linear-gradient(135deg, #b0703f 0%, #9d613d 45%, #c6a15b 100%);
+
   /* colour */
   --c-brand: #9d613d;          /* primary buttons, eyebrows, links */
   --c-brand-dark: #82502f;
@@ -13,9 +23,9 @@
   --c-line: #e7ddd1;           /* borders */
   --c-footer-text: #e9dccb;
   --c-white: #ffffff;
-  --c-ok: #2f7a4f;  --c-ok-bg: #e5f3ea;
-  --c-warn: #8a5a00; --c-warn-bg: #fdf1d6;
-  --c-bad: #a33a2b; --c-bad-bg: #fbe7e3;
+  --c-ok: #15803d;  --c-ok-bg: #dcfce7;
+  --c-warn: #b45309; --c-warn-bg: #fef3c7;
+  --c-bad: #be123c; --c-bad-bg: #ffe4e6;
 
   /* type */
   --f-sans: var(--font-figtree), 'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
