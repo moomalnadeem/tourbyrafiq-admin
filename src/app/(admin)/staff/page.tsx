@@ -6,7 +6,7 @@ import { useToast } from '@/components/organisms/Toaster';
 import { Card, PageTitle } from '@/components/organisms/Widgets';
 import { apiFetch } from '@/lib/api/client';
 
-const ROLES = ['EDITOR', 'SUPPORT', 'FINANCE', 'ADMIN', 'SUPER_ADMIN', 'TOURIST'];
+const ROLES = ['EDITOR', 'SUPPORT', 'FINANCE', 'ADMIN', 'SUPER_ADMIN', 'TOURIST', 'COMPANY'];
 
 /** AD30 / AD39 · Users & roles. */
 export default function Staff() {
