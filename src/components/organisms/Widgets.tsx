@@ -86,4 +86,4 @@ export function AttentionCard({ title, badge, rows, cta }: { title: string; badg
   );
 }
 
-export const Card = ({ children, style }: { children: ReactNode; style?: React.CSSProperties }) => <div style={{ ...card, ...style }}>{children}</div>;
+export const Card = ({ children, style }: { children: ReactNode; style?: React.CSSProperties }) => <div style={{ ...card, borderTop: '3px solid var(--c-gold)', boxShadow: '0 10px 28px rgba(42,32,27,.05)', ...style }}>{children}</div>;

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Button, FormField, Input } from '@/components/atoms';
 import { DataTable } from '@/components/organisms/DataTable';
 import { useToast } from '@/components/organisms/Toaster';
+import { ReportCards } from '@/components/organisms/ReportCards';
 import { Card, PageTitle } from '@/components/organisms/Widgets';
 import { apiFetch } from '@/lib/api/client';
 
@@ -13,6 +14,12 @@ export default function Guides() {
   return (
     <>
       <PageTitle title="Guides" description="Invited guides sign in with an email code at the guide panel, then wait for approval." />
+      <ReportCards path={'admin/guides'} reloadKey={k} cards={[
+          { label: 'Total guides', icon: 'users', tone: 'indigo', query: '' },
+          { label: 'Verified', icon: 'check', tone: 'emerald', compute: (i) => i.filter((x) => x.verified).length },
+          { label: 'Awaiting approval', icon: 'clock', tone: 'amber', compute: (i) => i.filter((x) => !x.verified).length },
+          { label: 'Average rating', icon: 'star', tone: 'violet', compute: (i) => { const r = i.map((x) => Number(x.rating)).filter((n) => n > 0); return r.length ? (r.reduce((a, b) => a + b, 0) / r.length).toFixed(1) : '—'; } },
+        ]} />
       <Card>
         <form style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14, alignItems: 'end' }} onSubmit={async (e) => { e.preventDefault(); try { await apiFetch('admin/staff', { body: { email, name, role: 'GUIDE' } }); toast('Guide invited'); setEmail(''); setName(''); setK((x) => x + 1); } catch (err: any) { toast(err.message, 'error'); } }}>
           <FormField label="Guide name">{(id) => <Input id={id} required value={name} onChange={(e) => setName(e.target.value)} />}</FormField>

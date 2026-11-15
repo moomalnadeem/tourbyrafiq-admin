@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Button, FormField, Input, Select } from '@/components/atoms';
 import { DataTable } from '@/components/organisms/DataTable';
 import { useToast } from '@/components/organisms/Toaster';
+import { ReportCards } from '@/components/organisms/ReportCards';
 import { Card, PageTitle } from '@/components/organisms/Widgets';
 import { apiFetch } from '@/lib/api/client';
 
@@ -15,6 +16,12 @@ export default function Staff() {
   return (
     <>
       <PageTitle title="Users & roles" description="Invite staff by email; they sign in with a one-time code." />
+      <ReportCards path={'admin/staff'} reloadKey={k} cards={[
+          { label: 'Staff members', icon: 'users', tone: 'indigo', query: '' },
+          { label: 'Admins', icon: 'shield', tone: 'violet', compute: (i) => i.filter((x) => ['ADMIN', 'SUPER_ADMIN'].includes(x.role)).length },
+          { label: 'Editors', icon: 'copy', tone: 'teal', compute: (i) => i.filter((x) => x.role === 'EDITOR').length },
+          { label: 'Support & finance', icon: 'chat', tone: 'amber', compute: (i) => i.filter((x) => ['SUPPORT', 'FINANCE'].includes(x.role)).length },
+        ]} />
       <Card>
         <form style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 14, alignItems: 'end' }} onSubmit={async (e) => { e.preventDefault(); try { await apiFetch('admin/staff', { body: f }); toast('User invited'); setF({ ...f, email: '', name: '' }); setK((x) => x + 1); } catch (err: any) { toast(err.message, 'error'); } }}>
           <FormField label="Name">{(id) => <Input id={id} value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} />}</FormField>

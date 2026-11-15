@@ -16,7 +16,7 @@ export function FormField({ label, hint, error, children, id }: { label: string;
   const fid = id ?? auto;
   return (
     <div className={s.field}>
-      <label className={s.label} htmlFor={fid}>{label}</label>
+      <label className={s.label} htmlFor={fid}>{label.endsWith(' *') ? <>{label.slice(0, -2)}<span className="req" aria-hidden>*</span></> : label}</label>
       {children(fid)}
       {error ? <span className={s.error} role="alert">{error}</span> : hint ? <span className={s.hint}>{hint}</span> : null}
     </div>

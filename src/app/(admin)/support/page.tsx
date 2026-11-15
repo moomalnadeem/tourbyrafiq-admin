@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Button, StatusPill, Textarea, toneFor } from '@/components/atoms';
 import { useToast } from '@/components/organisms/Toaster';
 import { useApi } from '@/components/organisms/useApi';
+import { ReportCards, statusCards } from '@/components/organisms/ReportCards';
 import { Card, PageTitle } from '@/components/organisms/Widgets';
 import { apiFetch } from '@/lib/api/client';
 
@@ -14,6 +15,7 @@ export default function Support() {
   return (
     <>
       <PageTitle title="Support inbox" />
+      <ReportCards path={'admin/content/tickets'} reloadKey={data} cards={statusCards(['OPEN', 'PENDING', 'RESOLVED', 'CLOSED'], { totalLabel: 'Total tickets' })} />
       {(data?.items ?? []).map((t: any) => (
         <Card key={t.id} style={{ display: 'grid', gap: 10 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap' }}><strong>{t.subject}</strong><span style={{ display: 'flex', gap: 8, alignItems: 'center', fontSize: 13 }}>{t.user?.email} {t.bookingRef && `· ${t.bookingRef}`}<StatusPill tone={toneFor(t.status)}>{t.status.toLowerCase()}</StatusPill></span></div>

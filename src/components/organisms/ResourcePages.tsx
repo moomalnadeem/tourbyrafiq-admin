@@ -4,7 +4,9 @@ import { useState } from 'react';
 import { ButtonLink, Skeleton } from '@/components/atoms';
 import { RESOURCES, type ResourceConfig, type ResourceGroup } from '@/config/resources';
 import { apiFetch } from '@/lib/api/client';
+import { RESOURCE_CARDS } from '@/config/reportCards';
 import { DataTable } from './DataTable';
+import { ReportCards, statusCards } from './ReportCards';
 import { ResourceForm } from './ResourceForm';
 import { useToast } from './Toaster';
 import { useApi } from './useApi';
@@ -41,15 +43,18 @@ function PublishToggle({ cfg, row, reload }: { cfg: ResourceConfig; row: any; re
 export function ResourceList({ group, resource }: { group: ResourceGroup; resource: string }) {
   const cfg = RESOURCES[resource];
   const router = useRouter();
+  const [reloadKey, setReloadKey] = useState(0);
   if (!cfg || cfg.group !== group) notFound();
+  const cards = RESOURCE_CARDS[resource] ?? statusCards(cfg.statusFilter ?? [], { totalLabel: `Total ${cfg.title.toLowerCase()}` });
   return (
     <>
       <PageTitle title={cfg.title} description={cfg.description ?? `${cfg.code} · manage ${cfg.title.toLowerCase()} shown on the website and app.`}
         actions={!cfg.readOnly && cfg.fields.length > 0 && resource !== 'inquiries' ? <ButtonLink href={`/${group}/${resource}/new`} iconLeft="plus">{`Add ${cfg.singular}`}</ButtonLink> : undefined} />
+      <ReportCards path={cfg.api} cards={cards} reloadKey={reloadKey} />
       <DataTable
         path={cfg.api} columns={cfg.columns} statuses={cfg.statusFilter}
         onRowClick={cfg.readOnly ? undefined : (row) => router.push(`/${group}/${resource}/${row.id}`)}
-        actions={cfg.publishToggle ? (row, reload) => <PublishToggle cfg={cfg} row={row} reload={reload} /> : undefined}
+        actions={cfg.publishToggle ? (row, reload) => <PublishToggle cfg={cfg} row={row} reload={() => { reload(); setReloadKey((k) => k + 1); }} /> : undefined}
       />
     </>
   );

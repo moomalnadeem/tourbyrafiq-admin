@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useMemo, useState, type CSSProperties, type ReactNode } from 'react';
-import { Button, FormField, Icon, Input, Select, Skeleton, StatusPill } from '@/components/atoms';
+import { Button, FormField, Icon, type IconName, Input, Select, Skeleton, StatusPill } from '@/components/atoms';
 import { apiFetch } from '@/lib/api/client';
 import { RichTextEditor } from '../RichTextEditor';
 import { useToast } from '../Toaster';
@@ -14,13 +14,16 @@ import { Switch } from './Switch';
 const panel: CSSProperties = { background: '#fff', border: '1px solid var(--c-line)', borderRadius: 16, padding: 24, display: 'grid', gap: 18 };
 const h2: CSSProperties = { fontSize: 13, letterSpacing: 1.2, textTransform: 'uppercase', fontWeight: 700, color: 'var(--c-brand)', margin: 0 };
 
-function Section({ title, hint, children }: { title: string; hint?: string; children: ReactNode }) {
+function Section({ title, hint, children, tone = 'indigo', icon = 'filter' }: { title: string; hint?: string; children: ReactNode; tone?: string; icon?: IconName }) {
   return (
-    <section style={panel}>
-      <div style={{ display: 'grid', gap: 4 }}>
-        <h2 style={h2}>{title}</h2>
-        {hint && <p style={{ margin: 0, fontSize: 13, color: 'var(--c-muted)' }}>{hint}</p>}
-      </div>
+    <section style={{ ...panel, borderTop: `3px solid var(--a-${tone})`, boxShadow: '0 10px 28px rgba(42,32,27,.05)' }}>
+      <header style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+        <span style={{ display: 'grid', placeItems: 'center', width: 36, height: 36, borderRadius: 12, background: `var(--a-${tone}-bg)`, color: `var(--a-${tone})` }}><Icon name={icon} size={17} /></span>
+        <div style={{ display: 'grid', gap: 2 }}>
+          <h2 style={{ ...h2, color: `var(--a-${tone})` }}>{title}</h2>
+          {hint && <p style={{ margin: 0, fontSize: 13, color: 'var(--c-muted)' }}>{hint}</p>}
+        </div>
+      </header>
       {children}
     </section>
   );
@@ -76,7 +79,7 @@ function Form({ kind, initial }: { kind: ConfigKind; initial?: any }) {
     <form onSubmit={save} style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 2fr) minmax(260px, 1fr)', gap: 20, alignItems: 'start' }} className="cfg-grid">
       <style>{`@media (max-width: 960px) { .cfg-grid { grid-template-columns: 1fr !important; } }`}</style>
       <div style={{ display: 'grid', gap: 20 }}>
-        <Section title="Details" hint={kind === 'modules' ? 'What this module is called and how the code refers to it.' : 'What this feature is called and how the code refers to it.'}>
+        <Section tone="indigo" icon="copy" title="Details" hint={kind === 'modules' ? 'What this module is called and how the code refers to it.' : 'What this feature is called and how the code refers to it.'}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
             <FormField label="Name">{(id) => <Input id={id} required maxLength={120} autoFocus={isNew} value={v.name} onChange={(e) => onName(e.target.value)} placeholder={kind === 'modules' ? 'e.g. Tours & experiences' : 'e.g. Hero slider'} />}</FormField>
             <FormField label="Key" hint={isNew ? 'Filled in from the name — edit if needed' : 'Used by the code. Changing it can switch things on/off unexpectedly.'}>
@@ -90,7 +93,7 @@ function Form({ kind, initial }: { kind: ConfigKind; initial?: any }) {
         </Section>
 
         {kind === 'features' && (
-          <Section title="Placement" hint="The module this feature belongs to. If the module is unpublished, this feature is hidden too.">
+          <Section tone="teal" icon="layers" title="Placement" hint="The module this feature belongs to. If the module is unpublished, this feature is hidden too.">
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
               <FormField label="Module">
                 {(id) => (
@@ -108,7 +111,7 @@ function Form({ kind, initial }: { kind: ConfigKind; initial?: any }) {
           </Section>
         )}
         {kind === 'modules' && (
-          <Section title="Placement">
+          <Section tone="teal" icon="layers" title="Placement">
             <FormField label="Order" hint="Lower numbers come first in lists">{(id) => <Input id={id} type="number" min={0} value={v.sortOrder} onChange={(e) => set('sortOrder', e.target.value)} style={{ maxWidth: 200 }} />}</FormField>
           </Section>
         )}
@@ -122,7 +125,7 @@ function Form({ kind, initial }: { kind: ConfigKind; initial?: any }) {
       </div>
 
       <aside style={{ display: 'grid', gap: 20 }}>
-        <Section title="Visibility">
+        <Section tone="emerald" icon="eye" title="Visibility">
           <div style={{ display: 'flex', gap: 14, alignItems: 'center', justifyContent: 'space-between' }}>
             <div style={{ display: 'grid', gap: 4 }}>
               <strong>{v.published ? 'Published' : 'Unpublished'}</strong>
@@ -147,7 +150,7 @@ function Form({ kind, initial }: { kind: ConfigKind; initial?: any }) {
         </Section>
 
         {kind === 'modules' && !isNew && (
-          <Section title={`Features (${children?.total ?? 0})`}>
+          <Section tone="violet" icon="filter" title={`Features (${children?.total ?? 0})`}>
             {!children ? <Skeleton style={{ height: 80 }} /> : children.items.length === 0
               ? <p style={{ margin: 0, fontSize: 13, color: 'var(--c-muted)' }}>No features in this module yet.</p>
               : (

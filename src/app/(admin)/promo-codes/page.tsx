@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Button, FormField, Input, Select } from '@/components/atoms';
 import { DataTable } from '@/components/organisms/DataTable';
 import { useToast } from '@/components/organisms/Toaster';
+import { ReportCards } from '@/components/organisms/ReportCards';
 import { Card, PageTitle } from '@/components/organisms/Widgets';
 import { apiFetch } from '@/lib/api/client';
 
@@ -13,6 +14,12 @@ export default function PromoCodes() {
   return (
     <>
       <PageTitle title="Promo codes & offers" description="Codes are validated server-side at checkout." />
+      <ReportCards path={'admin/promo-codes'} reloadKey={k} cards={[
+          { label: 'Promo codes', icon: 'gift', tone: 'indigo', query: '' },
+          { label: 'Active', icon: 'check', tone: 'emerald', compute: (i) => i.filter((x) => x.active && (!x.validTo || new Date(x.validTo) >= new Date())).length },
+          { label: 'Times used', icon: 'ticket', tone: 'teal', compute: (i) => i.reduce((s, x) => s + Number(x.usedCount ?? 0), 0) },
+          { label: 'Expired', icon: 'close', tone: 'rose', compute: (i) => i.filter((x) => x.validTo && new Date(x.validTo) < new Date()).length },
+        ]} />
       <Card>
         <form style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 14, alignItems: 'end' }}
           onSubmit={async (e) => { e.preventDefault(); try { await apiFetch('admin/promo-codes', { body: { code: f.code, discountType: f.discountType, value: Number(f.value), maxUses: f.maxUses ? Number(f.maxUses) : undefined, validTo: f.validTo ? new Date(f.validTo).toISOString() : undefined } }); toast('Promo code saved'); setF({ ...f, code: '' }); setK((x) => x + 1); } catch (err: any) { toast(err.message, 'error'); } }}>

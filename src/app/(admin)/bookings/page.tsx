@@ -5,6 +5,7 @@ import { Button, Select } from '@/components/atoms';
 import { DataTable } from '@/components/organisms/DataTable';
 import { useToast } from '@/components/organisms/Toaster';
 import { useApi } from '@/components/organisms/useApi';
+import { ReportCards } from '@/components/organisms/ReportCards';
 import { PageTitle } from '@/components/organisms/Widgets';
 import { apiFetch } from '@/lib/api/client';
 
@@ -20,6 +21,13 @@ function Bookings() {
   return (
     <>
       <PageTitle title="Bookings" description="All bookings across the website and app (AD2). Assign guides and update status." />
+      <ReportCards path={'admin/bookings'} reloadKey={k} cards={[
+          { label: 'Total bookings', icon: 'ticket', tone: 'indigo', query: '' },
+          { label: 'Awaiting confirmation', icon: 'clock', tone: 'amber', query: 'status=AWAITING_CONFIRMATION' },
+          { label: 'Confirmed', icon: 'check', tone: 'emerald', query: 'status=CONFIRMED' },
+          { label: 'Needs a guide', icon: 'users', tone: 'violet', query: 'unassigned=true' },
+          { label: 'Cancelled', icon: 'close', tone: 'rose', query: 'status=CANCELLED' },
+        ]} />
       <DataTable path={base} statuses={STATUSES} reloadKey={k} columns={[
         { key: 'reference', label: 'Booking' }, { key: 'contactName', label: 'Customer' }, { key: 'items.0.title', label: 'Product' },
         { key: 'items.0.date', label: 'Date', render: 'date' }, { key: 'paymentStatus', label: 'Payment', render: 'status' }, { key: 'guide.name', label: 'Guide' },

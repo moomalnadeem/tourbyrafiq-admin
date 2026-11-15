@@ -4,6 +4,7 @@ import { Button, StatusPill, toneFor } from '@/components/atoms';
 import { ImageUpload } from '@/components/organisms/ImageUpload';
 import { useToast } from '@/components/organisms/Toaster';
 import { useApi } from '@/components/organisms/useApi';
+import { ReportCards, statusCards } from '@/components/organisms/ReportCards';
 import { Card, PageTitle } from '@/components/organisms/Widgets';
 import { apiFetch } from '@/lib/api/client';
 
@@ -16,6 +17,10 @@ export default function Media() {
   return (
     <>
       <PageTitle title="Media library" description="Upload images to tourguidebucket. Guide uploads wait here for approval." />
+      <ReportCards path={'admin/media'} reloadKey={data} cards={[
+          ...statusCards(['PENDING', 'APPROVED', 'REJECTED'], { totalLabel: 'Total files' }),
+          { label: 'Images', icon: 'upload', tone: 'sky', compute: (i) => i.filter((x) => String(x.mimeType).startsWith('image/')).length },
+        ]} />
       <Card style={{ display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap', justifyContent: 'space-between' }}>
         <ImageUpload multiple value={[]} onChange={() => { toast('Uploaded'); reload(); }} folder="general" />
         <div style={{ display: 'flex', gap: 6 }}>{['', 'PENDING', 'APPROVED', 'REJECTED'].map((s) => <Button key={s} size="sm" variant={status === s ? 'dark' : 'outline'} onClick={() => setStatus(s)}>{s ? s.toLowerCase() : 'all'}</Button>)}</div>

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Button } from '@/components/atoms';
 import { DataTable } from '@/components/organisms/DataTable';
 import { useToast } from '@/components/organisms/Toaster';
+import { ReportCards, statusCards } from '@/components/organisms/ReportCards';
 import { PageTitle } from '@/components/organisms/Widgets';
 import { apiFetch } from '@/lib/api/client';
 
@@ -13,6 +14,10 @@ export default function Reviews() {
   return (
     <>
       <PageTitle title="Reviews" />
+      <ReportCards path={'admin/reviews'} reloadKey={k} cards={[
+          ...statusCards(['PENDING', 'APPROVED', 'REJECTED'], { totalLabel: 'Total reviews' }),
+          { label: 'Average rating', icon: 'star', tone: 'violet', compute: (i) => { const r = i.map((x) => Number(x.rating)).filter((n) => n > 0); return r.length ? `${(r.reduce((a, b) => a + b, 0) / r.length).toFixed(1)} ★` : '—'; } },
+        ]} />
       <DataTable path="admin/reviews" statuses={['PENDING', 'APPROVED', 'REJECTED']} reloadKey={k}
         columns={[{ key: 'user.name', label: 'Guest' }, { key: 'tour.title', label: 'Tour' }, { key: 'rating', label: '★' }, { key: 'body', label: 'Review', cell: (r) => <span style={{ display: 'block', maxWidth: 380, overflow: 'hidden', textOverflow: 'ellipsis' }}>{r.body}</span> }, { key: 'status', label: 'Status', render: 'status' }]}
         actions={(r) => r.status === 'PENDING' ? <div style={{ display: 'flex', gap: 6 }}><Button size="sm" onClick={() => mod(r.id, 'APPROVED')}>Approve</Button><Button size="sm" variant="outline" onClick={() => mod(r.id, 'REJECTED')}>Reject</Button></div> : null} />
