@@ -4,6 +4,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState, type ReactNode } from 'react';
 import { Icon } from '@/components/atoms';
 import { ADMIN_NAV, can, GUIDE_NAV, type NavItem } from '@/config/navigation';
+import { NotificationBell } from './NotificationBell';
 import { cx } from '@/lib/utils/format';
 import s from './AdminShell.module.css';
 
@@ -53,6 +54,7 @@ export function AdminShell({ children, mode = 'admin' }: { children: ReactNode; 
             </form>
           )}
           <div className={s.user}>
+            {mode === 'admin' && ['ADMIN', 'SUPER_ADMIN'].includes(user.role ?? '') && <NotificationBell />}
             <span className={s.userName} style={{ textAlign: 'right' }}><strong>{user.name ?? user.email}</strong><br /><small style={{ color: 'var(--c-muted)' }}>{user.role?.replace('_', ' ').toLowerCase()}</small></span>
             <span className={s.avatar}>{initials}</span>
           </div>
